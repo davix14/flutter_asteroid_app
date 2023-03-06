@@ -1,25 +1,26 @@
-import 'package:asteroid_test_app/homeScreen.dart';
+import 'package:asteroid_test_app/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(
     ProviderScope(
-        child: MaterialApp(
-      title: 'App1',
-      home: Scaffold(
+      child: MaterialApp(
+        title: 'App1',
+        home: Scaffold(
           appBar: AppBar(
             title: const Text('App'),
           ),
           body: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
                 HomeScreen(),
               ],
             ),
-          )),
-    )),
+          ),
+        ),
+      ),
+    ),
   );
 }
 
