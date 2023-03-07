@@ -1,4 +1,4 @@
-import 'package:asteroid_test_app/features/ImageOfTheDay/ImageOfTheDayModel.dart';
+import 'package:asteroid_test_app/features/ImageOfTheDay/model/ImageOfTheDayModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
