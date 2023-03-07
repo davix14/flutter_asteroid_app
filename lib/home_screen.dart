@@ -18,18 +18,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ref.watch(latestImageOfTheDayFutureProvider);
     return latestImageFuture.maybeWhen(
       data: (data) {
-        return Column(
-          children: [
-            const Text('Image of the Day'),
-            const SizedBox(height: 8),
-            Image.network(
-              data.hdurl,
-              loadingBuilder: (context, child, loadingProgress) =>
-                  loadingProgress != null
-                      ? const CircularProgressIndicator()
-                      : child,
-            ),
-          ],
+        return Padding(
+          padding:
+              const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
+          child: Column(
+            children: [
+              const Text('Image of the Day'),
+              const SizedBox(height: 8),
+              Image.network(
+                data.hdurl,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    loadingProgress != null
+                        ? const CircularProgressIndicator()
+                        : child,
+              ),
+            ],
+          ),
         );
       },
       orElse: () => Expanded(
