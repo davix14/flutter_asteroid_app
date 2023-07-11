@@ -16,7 +16,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
     return latestImageFuture.when(
       data: (imageOfDay) {
         return Stack(
-          alignment: Alignment.bottomLeft,
+          alignment: Alignment.topLeft,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
@@ -35,7 +35,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                           imageOfDay.title,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: p2,
+                            fontSize: p1,
                           ),
                         ),
                       ),
