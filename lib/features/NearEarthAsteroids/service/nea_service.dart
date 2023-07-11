@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/nea_model.dart';
@@ -8,14 +8,18 @@ import '../models/nea_model.dart';
 final neaServiceProvider = Provider.autoDispose((ref) => NeaService());
 
 class NeaService {
-  
-  final dio = Dio();
-  
+
   Future<NeaModel> getNea() async{
-    final response = await dio.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=2023-03-13&end_date=2023-03-20&api_key=2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn');
-    print(response);
-    final neaModel = NeaModel.fromJson(response.data);
-    // final single = neaModel.asteroidList.entries.first.value.first;
+    final url = Uri.https('api.nasa.gov', '/neo/rest/v1/feed',
+        {
+      'start_date': '2023-03-13',
+          'end_date': '2023-03-20',
+          'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'
+    });
+    final response = await http.get(url);
+    final parsed = jsonDecode(response.body);
+    print(parsed);
+    final neaModel = NeaModel.fromJson(parsed);
     print(neaModel.asteroidList.entries.first.key);
     return neaModel;
   }

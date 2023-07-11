@@ -1,5 +1,6 @@
 
 enum AppRoutes{
+  singleAsteroid('asteroid/:id'),
   home('/');
 
   const AppRoutes(
