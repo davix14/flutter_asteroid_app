@@ -1,4 +1,5 @@
 import 'package:asteroid_test_app/home_screen.dart';
+import 'package:asteroid_test_app/theme/color_schemes.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,19 +7,10 @@ void main() {
   runApp(
     ProviderScope(
       child: MaterialApp(
+        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
         title: 'App1',
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('App'),
-          ),
-          body: Center(
-            child: Column(
-              children: const <Widget>[
-                HomeScreen(),
-              ],
-            ),
-          ),
-        ),
+        home: HomeScreen(),
       ),
     ),
   );

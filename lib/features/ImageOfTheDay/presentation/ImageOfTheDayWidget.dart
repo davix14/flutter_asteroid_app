@@ -7,6 +7,8 @@ import '../ImageOfTheDayService.dart';
 import '../model/ImageOfTheDayModel.dart';
 
 class ImageOfTheDayWidget extends ConsumerWidget {
+  const ImageOfTheDayWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<ImageOfTheDayModel> latestImageFuture =
@@ -50,11 +52,13 @@ class ImageOfTheDayWidget extends ConsumerWidget {
           );
       },
       error: (error, stackTrace) {
-        return Expanded(
-          child: Center(
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * .10,
+          width: double.infinity,
+          child: const Center(
             child: Column(
-              children: const [
-                Text('Error or other'),
+              children: [
+                Text('Error getting image or other'),
               ],
             ),
           ),
