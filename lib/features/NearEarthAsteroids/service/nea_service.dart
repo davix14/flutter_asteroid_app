@@ -1,32 +1,44 @@
 import 'dart:convert';
 
+import 'package:asteroid_test_app/util/local_storage_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/nea_model.dart';
 
-final neaServiceProvider = Provider.autoDispose((ref) => NeaService());
+final neaServiceProvider =
+    Provider.autoDispose((ref) => NeaService(ref.watch(localStorageProvider)));
 
 class NeaService {
+  NeaService(this._localStorage);
 
-  Future<NeaModel> getNea() async{
-    final url = Uri.https('api.nasa.gov', '/neo/rest/v1/feed',
-        {
-      'start_date': '2023-03-13',
-          'end_date': '2023-03-20',
-          'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'
-    });
-    final response = await http.get(url);
-    final parsed = jsonDecode(response.body);
-    print(parsed);
-    final neaModel = NeaModel.fromJson(parsed);
-    print(neaModel.asteroidList.entries.first.key);
-    return neaModel;
+  final LocalStorageRepository _localStorage;
+
+  Future<NeaModel> getNea(String dateIn) async {
+    if (dateIn != _localStorage.lastDateUsed) {
+      final url = Uri.https('api.nasa.gov', '/neo/rest/v1/feed', {
+        'start_date': dateIn,
+        'end_date': dateIn,
+        'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'
+      });
+      final response = await http.get(url);
+      final parsed = jsonDecode(response.body);
+      print(parsed);
+      final neaModel = NeaModel.fromJson(parsed);
+      print(neaModel.asteroidList.entries.first.key);
+      _localStorage.lastDateUsed = dateIn;
+      _localStorage.lastAsteroidResponse = response.body;
+      return neaModel;
+    } else {
+      final response = _localStorage.lastAsteroidResponse;
+      return NeaModel.fromJson(jsonDecode(response));
+    }
   }
-
 }
+
 /// Useful pretty printer for printing [JSON]
-String prettyPrintJson(Object? obj) => const JsonEncoder.withIndent(' ').convert(obj);
+String prettyPrintJson(Object? obj) =>
+    const JsonEncoder.withIndent(' ').convert(obj);
 
 // Raw Response
 /*

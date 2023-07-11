@@ -1,15 +1,19 @@
+import 'dart:convert';
+
 import 'package:asteroid_test_app/features/ImageOfTheDay/model/ImageOfTheDayModel.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 class ImageOfTheDayService {
-  final dio = Dio();
 
   Future<ImageOfTheDayModel> getImageOfTheDay() async{
-    const picOfTheDayUrl = 'https://api.nasa.gov/planetary/apod?api_key=2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn';
-    final response = await dio.get(picOfTheDayUrl);
+    final url = Uri.https('api.nasa.gov', '/planetary/apod',
+        {
+          'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'
+        });
+    final response = await http.get(url);
     print(response.toString());
-    return ImageOfTheDayModel.fromJson(response.data);
+    return ImageOfTheDayModel.fromJson(jsonDecode(response.body));
   }
 }
 

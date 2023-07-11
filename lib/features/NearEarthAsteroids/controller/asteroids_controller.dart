@@ -18,7 +18,7 @@ class AsteroidsController extends StateNotifier<AsyncValue<NeaModel>> {
 
   void getAsteroids() async {
     try {
-      latestAsteroids = await _neaService.getNea();
+      latestAsteroids = await _neaService.getNea('2023-03-13');
       state =  AsyncValue.data(latestAsteroids!);
     } catch (e, stacktrace) {
       print('error getting asteroids: $stacktrace');
