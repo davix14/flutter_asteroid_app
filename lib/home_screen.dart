@@ -24,7 +24,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -32,7 +32,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(
               height: 8.0,
             ),
-            TempDisplay()
+            Expanded(
+              child: TempDisplay(),
+            )
           ],
         ),
       ),

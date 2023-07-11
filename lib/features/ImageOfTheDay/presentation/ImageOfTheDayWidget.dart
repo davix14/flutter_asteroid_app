@@ -15,41 +15,37 @@ class ImageOfTheDayWidget extends ConsumerWidget {
         ref.watch(latestImageOfTheDayFutureProvider);
     return latestImageFuture.when(
       data: (imageOfDay) {
-        return Column(
-            children: [
-              Stack(
-                alignment: Alignment.bottomLeft,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      imageOfDay.hdurl,
-                    ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                imageOfDay.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: p2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+        return Stack(
+          alignment: Alignment.bottomLeft,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                imageOfDay.hdurl,
               ),
-            ],
-          );
+            ),
+            Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          imageOfDay.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: p2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        );
       },
       error: (error, stackTrace) {
         return SizedBox(
