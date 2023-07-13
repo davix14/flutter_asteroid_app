@@ -1,3 +1,4 @@
+import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,12 +17,30 @@ class ImageOfTheDayWidget extends ConsumerWidget {
     return latestImageFuture.when(
       data: (imageOfDay) {
         return Stack(
-          alignment: Alignment.topLeft,
+          alignment: Alignment.topCenter,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
                 imageOfDay.hdurl,
+                height: context.mediaSize.height * .33,
+                width: context.mediaSize.width,
+                fit: BoxFit.fitWidth,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return SizedBox(
+                    height: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             Column(

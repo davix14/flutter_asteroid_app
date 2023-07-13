@@ -15,7 +15,7 @@ class NeaService {
   final LocalStorageRepository _localStorage;
 
   Future<NeaModel> getNea(String dateIn) async {
-    if (dateIn != _localStorage.lastDateUsed) {
+    if (dateIn != _localStorage.lastDateUsed && dateIn != '') {
       final url = Uri.https('api.nasa.gov', '/neo/rest/v1/feed', {
         'start_date': dateIn,
         'end_date': dateIn,

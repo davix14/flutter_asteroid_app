@@ -13,10 +13,11 @@ void main() async{
     ProviderScope(
       overrides: [localStorageProvider.overrideWithValue(localStorageRepo)],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
         darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
         title: 'App1',
-        home: HomeScreen(),
+        home: const HomeScreen(),
       ),
     ),
   );
