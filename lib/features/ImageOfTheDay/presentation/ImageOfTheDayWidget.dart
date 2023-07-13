@@ -35,7 +35,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                       child: CircularProgressIndicator(
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
+                                loadingProgress.expectedTotalBytes!
                             : null,
                       ),
                     ),
@@ -61,6 +61,81 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: context.mediaSize.height * .23,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      child: const Icon(
+                        Icons.fullscreen_outlined,
+                        color: Colors.white,
+                      ),
+                      onTap: () => Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          opaque: false,
+                          barrierColor: Colors.black,
+                          pageBuilder: (BuildContext context, _, __) {
+                            return Scaffold(
+                              body: Center(
+                                child: Stack(
+                                  alignment: Alignment.topLeft,
+                                  children: [
+                                    Image.network(
+                                      imageOfDay.hdurl,
+                                      height: context.mediaSize.height * .8,
+                                      width: context.mediaSize.width,
+                                      // fit: BoxFit.fitWidth,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) return child;
+                                        return SizedBox(
+                                          height: 50,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: context.mediaSize.height * .10,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: GestureDetector(
+                                          onTap: () => Navigator.of(context).pop(),
+                                          child: const Icon(Icons.exit_to_app_rounded),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
@@ -80,6 +155,37 @@ class ImageOfTheDayWidget extends ConsumerWidget {
         );
       },
       loading: () => const CircularProgressIndicator(),
+    );
+  }
+}
+
+class ImageFullScreenWrapperWidget extends StatelessWidget {
+  final Image child;
+  final bool dark;
+
+  ImageFullScreenWrapperWidget({
+    required this.child,
+    this.dark = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            opaque: false,
+            barrierColor: dark ? Colors.black : Colors.white,
+            pageBuilder: (BuildContext context, _, __) {
+              return Dialog.fullscreen(
+                child: child,
+              );
+            },
+          ),
+        );
+      },
+      child: child,
     );
   }
 }
