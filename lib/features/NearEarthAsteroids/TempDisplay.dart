@@ -45,7 +45,7 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
                               // textAlign: TextAlign.center,
                               controller: _dateCtrl,
                               decoration: const InputDecoration(
-                                suffixIcon: Icon(Icons.edit_calendar_rounded),
+                                prefixIcon: Icon(Icons.edit_calendar_rounded),
                                 label: Text('Date'),
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.zero,

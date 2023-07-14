@@ -17,13 +17,13 @@ class ImageOfTheDayWidget extends ConsumerWidget {
     return latestImageFuture.when(
       data: (imageOfDay) {
         return Stack(
-          alignment: Alignment.topCenter,
+          // alignment: Alignment.topCenter,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
                 imageOfDay.hdurl,
-                height: context.mediaSize.height * .33,
+                height: context.mediaSize.height * .3,
                 width: context.mediaSize.width,
                 fit: BoxFit.fitWidth,
                 loadingBuilder: (BuildContext context, Widget child,
@@ -61,16 +61,12 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: context.mediaSize.height * .23,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
+                SizedBox(height: context.mediaSize.height * .19,),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12, top: 10),
+                    child: GestureDetector(
                       child: const Icon(
                         Icons.fullscreen_outlined,
                         color: Colors.white,
@@ -100,12 +96,12 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                                           child: Center(
                                             child: CircularProgressIndicator(
                                               value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
+                                                  .expectedTotalBytes !=
+                                                  null
                                                   ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
+                                                  .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
                                                   : null,
                                             ),
                                           ),
@@ -120,8 +116,8 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                                         Padding(
                                           padding: const EdgeInsets.all(20.0),
                                           child: GestureDetector(
-                                          onTap: () => Navigator.of(context).pop(),
-                                          child: const Icon(Icons.exit_to_app_rounded),
+                                            onTap: () => Navigator.of(context).pop(),
+                                            child: const Icon(Icons.exit_to_app_rounded),
                                           ),
                                         ),
                                       ],
@@ -134,7 +130,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
