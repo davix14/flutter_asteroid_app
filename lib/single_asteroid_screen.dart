@@ -1,0 +1,103 @@
+import 'package:asteroid_test_app/features/NearEarthAsteroids/models/nea_model.dart';
+import 'package:asteroid_test_app/theme/theme_constants.dart';
+import 'package:flutter/material.dart';
+
+class SingleAsteroidScreen extends StatelessWidget {
+  const SingleAsteroidScreen(this._asteroidIn, {super.key});
+
+  final SingleAsteroid _asteroidIn;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+          'Near Earth Object: ${_asteroidIn.name}',
+        ),
+      ),
+      body: Column(
+        children: [
+          Image.asset(
+            _asteroidIn.isPotentiallyHazardous
+                ? 'assets/images/asteroid_hazardous.png'
+                : 'assets/images/asteroid_safe.png',
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: SizedBox(
+                width: double.infinity,
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: SingleChildScrollView(
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          const Expanded(child: Text('Name:', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                          Flexible(child: Text(_asteroidIn.name, style: const TextStyle(fontSize: tx19))),
+                        ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Close Approach Date:', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.closeApproachDate, style: const TextStyle(fontSize: tx19))),
+                          ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Orbiting Body', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.orbitingBody, style: const TextStyle(fontSize: tx19))),
+                          ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Potentially Hazrdous:', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.isPotentiallyHazardous.toString(), style: const TextStyle(fontSize: tx19))),
+                          ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Miss Distance (Miles):', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.missDistanceMiles.toString() + ' mi.', style: const TextStyle(fontSize: tx19))),
+                          ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Relative Velocity MPH', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.relativeVelocityMPH.toString() + ' MPH', style: const TextStyle(fontSize: tx19))),
+                          ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Min Estimated Diameter (Miles):', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.estimatedDiameterMilesMin.toString() + ' mi.', style: const TextStyle(fontSize: tx19))),
+                          ],),
+                        dividerH15T1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(child: Text('Max Estimated Diameter (Miles):', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
+                            Flexible(child: Text(_asteroidIn.estimatedDiameterMilesMax.toString() + ' mi.', style: const TextStyle(fontSize: tx19))),
+                          ],),
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

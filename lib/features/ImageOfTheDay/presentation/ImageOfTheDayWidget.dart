@@ -54,7 +54,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                           imageOfDay.title,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: p1,
+                            fontSize: tx19,
                           ),
                         ),
                       ),

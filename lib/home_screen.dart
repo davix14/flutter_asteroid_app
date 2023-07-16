@@ -1,6 +1,5 @@
 import 'package:asteroid_test_app/features/ImageOfTheDay/presentation/ImageOfTheDayWidget.dart';
 import 'package:asteroid_test_app/features/NearEarthAsteroids/TempDisplay.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

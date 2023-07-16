@@ -1,4 +1,5 @@
 import 'package:asteroid_test_app/features/NearEarthAsteroids/controller/asteroids_controller.dart';
+import 'package:asteroid_test_app/single_asteroid_screen.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:asteroid_test_app/util/helpers.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ class TempDisplay extends ConsumerStatefulWidget {
 }
 
 class TempDisplayState extends ConsumerState<TempDisplay> {
-
   late final TextEditingController _dateCtrl;
   late final String lastDate;
 
@@ -33,7 +33,8 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
                   width: context.mediaSize.width * .4,
                   child: Card(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
                       child: Row(
                         children: [
                           Flexible(
@@ -45,13 +46,12 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
                               // textAlign: TextAlign.center,
                               controller: _dateCtrl,
                               decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.edit_calendar_rounded),
-                                label: Text('Date'),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                                counterText: ''
-                              ),
+                                  prefixIcon: Icon(Icons.edit_calendar_rounded),
+                                  label: Text('Date'),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.zero,
+                                  isDense: true,
+                                  counterText: ''),
                             ),
                           ),
                         ],
@@ -73,15 +73,40 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
                                   // color: ,
                                   child: Padding(
                                     padding: const EdgeInsets.all(24),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    child: Row(
                                       children: [
-                                        Text('id: ${e.name}'),
-                                        Text(
-                                            'miss distance: ${e.missDistanceMiles}'),
-                                        Text(
-                                            'Is Hazardous ${e.isPotentiallyHazardous.toString()}'),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('id: ${e.name}'),
+                                            Text(
+                                                'miss distance: ${e.missDistanceMiles}'),
+                                            Text(
+                                                'Is Hazardous ${e.isPotentiallyHazardous.toString()}'),
+                                          ],
+                                        ),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.of(context)
+                                                .push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SingleAsteroidScreen(
+                                                          data
+                                                              .asteroidList
+                                                              .entries
+                                                              .first
+                                                              .value
+                                                              .first,
+                                                        ))),
+                                            child:  Column(
+                                              children: [
+                                                Icon(e.isPotentiallyHazardous ? Icons.dangerous : Icons.health_and_safety_outlined),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -99,10 +124,10 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
 
   Future<void> _changeDate() async {
     final result = await showDatePicker(
-        context: context,
-        initialDate: DateTime.tryParse(lastDate)!,
-        firstDate: DateTime.tryParse('1960-01-01')!,
-        lastDate: DateTime.now(),
+      context: context,
+      initialDate: DateTime.tryParse(lastDate)!,
+      firstDate: DateTime.tryParse('1960-01-01')!,
+      lastDate: DateTime.now(),
     );
     if (result == null) return;
     print(result);
