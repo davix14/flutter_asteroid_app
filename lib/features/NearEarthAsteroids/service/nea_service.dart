@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:asteroid_test_app/util/helpers.dart';
 import 'package:asteroid_test_app/util/local_storage_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,11 +16,11 @@ class NeaService {
 
   final LocalStorageRepository _localStorage;
 
-  Future<NeaModel> getNea(String dateIn) async {
-    if (dateIn != _localStorage.lastDateUsed && dateIn != '') {
+  Future<NeaModel> getNea(DateTimeRange? dateRangeIn) async {
+    if (dateRangeIn != null && getFormattedDate(dateRangeIn.start) != _localStorage.lastStartDateUsed && getFormattedDate(dateRangeIn.end) != _localStorage.lastEndDateUsed) {
       final url = Uri.https('api.nasa.gov', '/neo/rest/v1/feed', {
-        'start_date': dateIn,
-        'end_date': dateIn,
+        'start_date': dateRangeIn.start.getFormattedDate(),
+        'end_date': dateRangeIn.end.getFormattedDate(),
         'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'
       });
       final response = await http.get(url);
@@ -26,7 +28,8 @@ class NeaService {
       print(parsed);
       final neaModel = NeaModel.fromJson(parsed);
       print(neaModel.asteroidList.entries.first.key);
-      _localStorage.lastDateUsed = dateIn;
+      _localStorage.lastStartDateUsed = dateRangeIn.start.getFormattedDate();
+      _localStorage.lastEndDateUsed = dateRangeIn.end.getFormattedDate();
       _localStorage.lastAsteroidResponse = response.body;
       return neaModel;
     } else {

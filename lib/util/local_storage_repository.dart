@@ -17,12 +17,16 @@ class LocalStorageRepository {
   }
 
   // keys
-  static const _lastDateUsedKey = 'lastDateUsed';
+  static const _lastStartDateUsedKey = 'lastStartDateUsed';
+  static const _lastEndDateUsedKey = 'lastEndDateUsed';
   static const _lastAsteroidResponseKey = 'lastAsteroidResponse';
   static const _lastImageOfTheDayResponseKey = 'lastIMODResponse';
 
-  set lastDateUsed(String lastDateUsed) => _prefs.setString(_lastDateUsedKey, lastDateUsed);
-  String get lastDateUsed => _prefs.getString(_lastDateUsedKey) ?? '';
+  set lastStartDateUsed(String lastDateUsed) => _prefs.setString(_lastStartDateUsedKey, lastDateUsed);
+  String get lastStartDateUsed => _prefs.getString(_lastStartDateUsedKey) ?? '';
+
+  set lastEndDateUsed(String lastDateUsed) => _prefs.setString(_lastEndDateUsedKey, lastDateUsed);
+  String get lastEndDateUsed => _prefs.getString(_lastEndDateUsedKey) ?? '';
 
   set lastAsteroidResponse(String lastResponse) => _prefs.setString(_lastAsteroidResponseKey, lastResponse);
   String get lastAsteroidResponse => _prefs.getString(_lastAsteroidResponseKey) ?? '';
