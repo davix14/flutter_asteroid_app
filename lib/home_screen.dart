@@ -17,8 +17,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         // titleTextStyle: Theme.of(context).appBarTheme.toolbarTextStyle,
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
-          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+        title: const Text(
+          style: TextStyle(color: Colors.white),
           'OpenAsteroids',
         ),
       ),

@@ -13,7 +13,7 @@ class SingleAsteroidScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+          style: const TextStyle(color: Colors.white),
           'Near Earth Object: ${_asteroidIn.name}',
         ),
       ),
@@ -26,12 +26,12 @@ class SingleAsteroidScreen extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: SizedBox(
                 width: double.infinity,
                 child: Card(
                   child: Padding(
-                    padding: EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(18.0),
                     child: SingleChildScrollView(
                       child: Column(children: [
                         Row(

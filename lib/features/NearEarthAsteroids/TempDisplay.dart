@@ -1,5 +1,6 @@
 import 'package:asteroid_test_app/features/NearEarthAsteroids/controller/asteroids_controller.dart';
 import 'package:asteroid_test_app/single_asteroid_screen.dart';
+import 'package:asteroid_test_app/theme/theme_constants.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:asteroid_test_app/util/helpers.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,20 @@ class TempDisplay extends ConsumerStatefulWidget {
 }
 
 class TempDisplayState extends ConsumerState<TempDisplay> {
-  late final TextEditingController _dateCtrl;
+  late final TextEditingController _startDateCtrl;
+  late final TextEditingController _endDateCtrl;
   late final String lastStartDate;
   late final String lastEndDate;
+  late bool startDateSet;
 
   @override
   void initState() {
     super.initState();
     lastStartDate = ref.read(asteroidsControllerProvider.notifier).lastDate.start.getFormattedDate();
     lastEndDate = ref.read(asteroidsControllerProvider.notifier).lastDate.end.getFormattedDate();
-    _dateCtrl = TextEditingController(text: '$lastStartDate to $lastEndDate');
+    _startDateCtrl = TextEditingController(text: lastStartDate);
+    _endDateCtrl = TextEditingController(text: lastEndDate);
+    startDateSet = false;
   }
 
   @override
@@ -36,31 +41,33 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
-                  width: context.mediaSize.width * .7,
+                  width: context.mediaSize.width * .9,
                   child: Card(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
+                          horizontal: 15, vertical: 10),
                       child: Row(
                         children: [
-                          Flexible(
-                            child: TextField(
-                              maxLength: 11,
-                              readOnly: true,
-                              style: const TextStyle(fontSize: 14),
-                              onTap: _changeDate,
-                              // textAlign: TextAlign.center,
-                              controller: _dateCtrl,
-                              decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.edit_calendar_rounded),
-                                  label: Text('Dates'),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.zero,
-                                  isDense: true,
-                                  counterText: ''),
-                            ),
-                          ),
-                        ],
+                          hGap8,
+                          Flexible(child: TextField(controller: _startDateCtrl, onTap: _changeStartDate, decoration: const InputDecoration(labelText: 'Start Date'), textAlign: TextAlign.center, readOnly: true,)),
+                          const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: p12),
+                          child: Text('to')),
+                          Flexible(child: TextField(controller: _endDateCtrl, onTap: _changeEndDate, decoration: const InputDecoration(labelText: 'End Date'), textAlign: TextAlign.center, readOnly: true,)),
+                        IconButton(
+                          onPressed: () {
+                            startDateSet = false;
+                            ref
+                                .read(asteroidsControllerProvider.notifier)
+                                .getAsteroids(
+                                dateRangeIn: DateTimeRange(
+                                    start:
+                                    DateTime.parse(_startDateCtrl.text),
+                                    end: DateTime.parse(_endDateCtrl.text)));
+                          },
+                          icon: const Icon(Icons.rocket_launch_outlined),
+                        ),
+                      ],
                       ),
                     ),
                   ),
@@ -127,32 +134,21 @@ class TempDisplayState extends ConsumerState<TempDisplay> {
         loading: () => const CircularProgressIndicator());
   }
 
-  Future<void> _changeDate() async {
-    final result = await showDateRangePicker(context: context, firstDate: Jiffy.now().subtract(days: 7).dateTime, lastDate: DateTime.now());
+  Future<void> _changeStartDate() async{
+    final result = await showDatePicker(context: context, initialDate: DateTime.tryParse(lastStartDate)!, firstDate: DateTime.tryParse('1960-01-01')!, lastDate: DateTime.now(),);
+    if(result == null) return;
+    startDateSet = true;
+    _startDateCtrl.text  = result.getFormattedDate();
+  }
 
-    /*showDatePicker(
-      context: context,
-      initialDate: DateTime.tryParse(lastDate)!,
-      firstDate: DateTime.tryParse('1960-01-01')!,
-      lastDate: DateTime.now(),
-    );*/
-    if (result == null) return;
-    print(result.end);
-    _dateCtrl.text = '${result.end.getFormattedDate()} to ${result.start.getFormattedDate()}';
-    ref.read(asteroidsControllerProvider.notifier).getAsteroids(dateRangeIn: result);
+  Future<void> _changeEndDate() async{
+    if(startDateSet == false){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Start Date not set!')));
+      return;
+    }
+    final startDate = DateTime.parse(_startDateCtrl.text);
+    final result = await showDatePicker(context: context, initialDate: startDate, firstDate: startDate, lastDate: Jiffy.parseFromDateTime(startDate).add(days: 7).dateTime);
+    if(result == null) return;
+    _endDateCtrl.text = result.getFormattedDate();
   }
 }
-
-/*
-Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          children: [
-                            Text('id: ${entry.name}'),
-                            Text('Is Hazardous ${entry.isPotentiallyHazardous.toString()}'),
-                          ],
-                        ),
-                      ),
-                    )
- */

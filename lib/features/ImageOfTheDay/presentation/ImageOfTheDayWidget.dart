@@ -67,126 +67,125 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 12, top: 10),
-                    child: GestureDetector(
-                      child: const Icon(
+                    padding: const EdgeInsets.only(left: 4, top: 0),
+                    child: IconButton(
+                      icon: const Icon(
                         Icons.fullscreen_outlined,
                         color: Colors.white,
-                      ),
-                      onTap: () => Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          opaque: false,
-                          barrierColor: Colors.black,
-                          pageBuilder: (BuildContext context, _, __) {
-                            return Scaffold(
-                              body: Center(
-                                child: Stack(
-                                  alignment: Alignment.topLeft,
-                                  children: [
-                                    PhotoView(
-                                      imageProvider: Image.network(
-                                        imageOfDay.hdurl,
-                                        height: context.mediaSize.height * .8,
-                                        width: context.mediaSize.width,
-                                        // fit: BoxFit.fitWidth,
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null)
-                                            return child;
-                                          return SizedBox(
-                                            height: 50,
-                                            child: Center(
-                                              child: CircularProgressIndicator(
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes!
-                                                    : null,
-                                              ),
+                      ), onPressed: () => Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        opaque: false,
+                        barrierColor: Colors.black,
+                        pageBuilder: (BuildContext context, _, __) {
+                          return Scaffold(
+                            body: Center(
+                              child: Stack(
+                                alignment: Alignment.topLeft,
+                                children: [
+                                  PhotoView(
+                                    imageProvider: Image.network(
+                                      imageOfDay.hdurl,
+                                      height: context.mediaSize.height * .8,
+                                      width: context.mediaSize.width,
+                                      // fit: BoxFit.fitWidth,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return SizedBox(
+                                          height: 50,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                  .expectedTotalBytes !=
+                                                  null
+                                                  ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                                  : null,
                                             ),
-                                          );
-                                        },
-                                      ).image,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            SizedBox(
-                                              height: context.mediaSize.height *
-                                                  .10,
+                                          ),
+                                        );
+                                      },
+                                    ).image,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: context.mediaSize.height *
+                                                .10,
+                                          ),
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.all(20.0),
+                                            child: IconButton(
+                                              icon: const Icon(
+                                                  Icons.exit_to_app_rounded),
+                                              color: Colors.white,
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: GestureDetector(
-                                                onTap: () =>
-                                                    Navigator.of(context).pop(),
-                                                child: const Icon(
-                                                    Icons.exit_to_app_rounded,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        SizedBox(
-                                            height:
-                                                context.mediaSize.height * .66),
-                                        SizedBox(
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      SizedBox(
                                           height:
-                                              context.mediaSize.height * .25,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Card(
-                                              elevation: 0,
-                                              color: Colors.transparent,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(p8),
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        imageOfDay.title,
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white70),
-                                                      ),
-                                                      vGap8,
-                                                      Text(
-                                                        imageOfDay.explanation,
-                                                        style: const TextStyle(
-                                                            color:
-                                                                Colors.white70),
-                                                      )
-                                                    ],
-                                                  ),
+                                          context.mediaSize.height * .66),
+                                      SizedBox(
+                                        height:
+                                        context.mediaSize.height * .25,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Card(
+                                            elevation: 0,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding:
+                                              const EdgeInsets.all(p8),
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      imageOfDay.title,
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                          color:
+                                                          Colors.white70),
+                                                    ),
+                                                    vGap8,
+                                                    Text(
+                                                      imageOfDay.explanation,
+                                                      style: const TextStyle(
+                                                          color:
+                                                          Colors.white70),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
+                    ),
                     ),
                   ),
                 ),
