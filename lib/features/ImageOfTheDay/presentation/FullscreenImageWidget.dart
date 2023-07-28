@@ -58,7 +58,7 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
               ).image,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
                   children: [
@@ -66,9 +66,9 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                       height: context.mediaSize.height * .10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: IconButton(
-                        icon: const Icon(Icons.exit_to_app_rounded),
+                        icon: const Icon(Icons.keyboard_double_arrow_left),
                         color: Colors.white,
                         onPressed: () => Navigator.of(context).pop(),
                       ),

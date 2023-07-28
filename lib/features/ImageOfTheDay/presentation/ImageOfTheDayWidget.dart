@@ -1,5 +1,6 @@
 import 'package:asteroid_test_app/features/ImageOfTheDay/presentation/FullscreenImageWidget.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
+import 'package:asteroid_test_app/util/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -101,9 +102,7 @@ class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
                         ),
                         onPressed: () => Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => FullscreenImageWidget(
-                                  imageOfDay: imageOfDay)),
+                          makeSlideTransitionPageRoute(child: FullscreenImageWidget(imageOfDay: imageOfDay)),
                         ),
                       ),
                     ),
