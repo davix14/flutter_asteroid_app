@@ -7,81 +7,109 @@ import '../../../theme/theme_constants.dart';
 import '../ImageOfTheDayService.dart';
 import '../model/ImageOfTheDayModel.dart';
 
-class ImageOfTheDayWidget extends ConsumerWidget {
+class ImageOfTheDayWidget extends ConsumerStatefulWidget {
   const ImageOfTheDayWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _ImageOfTheDayState();
+}
+
+class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
+  late bool _doneLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    _doneLoading = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final AsyncValue<ImageOfTheDayModel> latestImageFuture =
         ref.watch(latestImageOfTheDayFutureProvider);
+
     return latestImageFuture.when(
       data: (imageOfDay) {
+        Image image = Image.network(
+          imageOfDay.hdurl,
+          height: context.mediaSize.height * .3,
+          width: context.mediaSize.width,
+          fit: BoxFit.fill,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) return child;
+            return SizedBox(
+              height: context.mediaSize.height * .3,
+              width: context.mediaSize.width,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              ),
+            );
+          },
+        );
+        image.image
+            .resolve(const ImageConfiguration())
+            .addListener(ImageStreamListener((image, synchronousCall) {
+          if (mounted) {
+            setState(() {
+              _doneLoading = true;
+            });
+          }
+        }));
         return Stack(
           // alignment: Alignment.topCenter,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                imageOfDay.hdurl,
-                height: context.mediaSize.height * .3,
-                width: context.mediaSize.width,
-                fit: BoxFit.fill,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return SizedBox(
-                    height: context.mediaSize.height * .3,
-                    width: context.mediaSize.width,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              child: image,
             ),
-            Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          imageOfDay.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: tx19,
+            if (_doneLoading)
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            imageOfDay.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: tx19,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: context.mediaSize.height * .19,
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 4, top: 0),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.fullscreen_outlined,
-                        color: Colors.white,
-                      ), onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FullscreenImageWidget(imageOfDay: imageOfDay)),
-                    ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: context.mediaSize.height * .19,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4, top: 0),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.fullscreen_outlined,
+                          color: Colors.white,
+                        ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FullscreenImageWidget(
+                                  imageOfDay: imageOfDay)),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         );
       },
@@ -99,37 +127,6 @@ class ImageOfTheDayWidget extends ConsumerWidget {
         );
       },
       loading: () => const CircularProgressIndicator(),
-    );
-  }
-}
-
-class ImageFullScreenWrapperWidget extends StatelessWidget {
-  final Image child;
-  final bool dark;
-
-  ImageFullScreenWrapperWidget({
-    required this.child,
-    this.dark = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            opaque: false,
-            barrierColor: dark ? Colors.black : Colors.white,
-            pageBuilder: (BuildContext context, _, __) {
-              return Dialog.fullscreen(
-                child: child,
-              );
-            },
-          ),
-        );
-      },
-      child: child,
     );
   }
 }

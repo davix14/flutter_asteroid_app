@@ -15,7 +15,15 @@ class FullscreenImageWidget extends StatefulWidget {
 }
 
 class _FullscreenImageState extends State<FullscreenImageWidget> {
-  bool showInfo = true;
+  ///If the box is expanded
+  bool _isExpanded = true;
+
+  ///Toogle the box to expand or collapse
+  void _toogleExpand() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +35,8 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
             PhotoView(
               imageProvider: Image.network(
                 widget.imageOfDay.hdurl,
-                // imageOfDay.hdurl,
                 height: context.mediaSize.height * .8,
                 width: context.mediaSize.width,
-                // fit: BoxFit.fitWidth,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
                   if (loadingProgress == null) {
@@ -64,26 +70,46 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                       child: IconButton(
                         icon: const Icon(Icons.exit_to_app_rounded),
                         color: Colors.white,
-                        onPressed: () {
-                          print(
-                              'printing current visibility b4: ${showInfo.toString()}');
-                          setState(() {
-                            showInfo = !showInfo;
-                          });;
-                        },
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            Visibility(
-              visible: showInfo,
-              child: Column(
-                children: [
-                  SizedBox(height: context.mediaSize.height * .66),
-                  SizedBox(
-                    height: context.mediaSize.height * .25,
+            Column(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 1000),
+                  curve: Curves.fastOutSlowIn,
+                  height: _isExpanded
+                    ? context.mediaSize.height * .66
+                    : context.mediaSize.height * .9,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(p8),
+                        child: IconButton(
+                            onPressed: _toogleExpand,
+                            icon: Icon(
+                              _isExpanded ? Icons.arrow_downward : Icons.arrow_upward,
+                              color: Colors.white70,
+                            ))),
+                    hGap10,
+                    Text(
+                      widget.imageOfDay.title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white70),
+                    ),
+                  ],
+                ),
+                Flexible(
+                  child: SizedBox(
+                    height: _isExpanded
+                        ? context.mediaSize.height * .25
+                        : context.mediaSize.height * 0,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
@@ -94,16 +120,14 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                Text(
-                                  widget.imageOfDay.title,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white70),
-                                ),
-                                vGap8,
-                                Text(
-                                  widget.imageOfDay.explanation,
-                                  style: const TextStyle(color: Colors.white70),
+                                if(_isExpanded) Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: p8),
+                                  child: Text(
+                                    widget.imageOfDay.explanation,
+                                    style:
+                                        const TextStyle(color: Colors.white70),
+                                  ),
                                 )
                               ],
                             ),
@@ -111,9 +135,9 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             )
           ],
         ),
