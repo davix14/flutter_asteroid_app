@@ -1,5 +1,5 @@
 import 'package:asteroid_test_app/features/ImageOfTheDay/presentation/ImageOfTheDayWidget.dart';
-import 'package:asteroid_test_app/features/NearEarthAsteroids/TempDisplay.dart';
+import 'package:asteroid_test_app/features/NearEarthAsteroids/neo_search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,7 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               height: 8.0,
             ),
             Expanded(
-              child: TempDisplay(),
+              child: NEOSearchWidget(),
             )
           ],
         ),

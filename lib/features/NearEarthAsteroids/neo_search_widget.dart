@@ -8,12 +8,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 
-class TempDisplay extends ConsumerStatefulWidget {
+class NEOSearchWidget extends ConsumerStatefulWidget {
+  const NEOSearchWidget({super.key});
+
   @override
-  TempDisplayState createState() => TempDisplayState();
+  NEOSearchState createState() => NEOSearchState();
 }
 
-class TempDisplayState extends ConsumerState<TempDisplay> {
+class NEOSearchState extends ConsumerState<NEOSearchWidget> {
   late final TextEditingController _startDateCtrl;
   late final TextEditingController _endDateCtrl;
   late final String lastStartDate;
