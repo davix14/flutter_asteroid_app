@@ -1,5 +1,6 @@
 import 'package:asteroid_test_app/features/ImageOfTheDay/presentation/ImageOfTheDayWidget.dart';
 import 'package:asteroid_test_app/features/NearEarthAsteroids/neo_search_widget.dart';
+import 'package:asteroid_test_app/theme/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,15 +23,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           'OpenAsteroids',
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
+      body:  const Padding(
+        padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const ImageOfTheDayWidget(),
-            const SizedBox(
-              height: 8.0,
-            ),
+            ImageOfTheDayWidget(),
+            vGap8,
             Expanded(
               child: NEOSearchWidget(),
             )
