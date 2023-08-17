@@ -117,47 +117,49 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: allAsteroids!
-                        .map((e) => SizedBox(
-                              width: double.infinity,
-                              child: Card(
-                                // color: ,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('id: ${e.name}'),
-                                          Text(
-                                              'miss distance: ${e.missDistanceMiles}'),
-                                          Text(
-                                              'Is Hazardous ${e.isPotentiallyHazardous.toString()}'),
-                                        ],
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    makeSlideTransitionPageRoute(
+                                      child: SingleAsteroidScreen(
+                                        data.asteroidList.entries.first.value
+                                            .first,
                                       ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () => Navigator.push(
-                                            context,
-                                            makeSlideTransitionPageRoute(
-                                              child: SingleAsteroidScreen(
-                                                data.asteroidList.entries.first
-                                                    .value.first,
-                                              ),
-                                            ),
-                                          ),
-                                          child: Column(
+                                    ),
+                                  ),
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(24),
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Icon(e.isPotentiallyHazardous
-                                                  ? Icons.dangerous
-                                                  : Icons
-                                                      .health_and_safety_outlined),
+                                              Text('id: ${e.name}'),
+                                              Text(
+                                                  'miss distance: ${e.missDistanceMiles}'),
+                                              Text(
+                                                  'Is Hazardous ${e.isPotentiallyHazardous.toString()}'),
                                             ],
                                           ),
-                                        ),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                Icon(e.isPotentiallyHazardous
+                                                    ? Icons.dangerous
+                                                    : Icons
+                                                        .health_and_safety_outlined),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
