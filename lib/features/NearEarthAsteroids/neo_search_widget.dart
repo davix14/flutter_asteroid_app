@@ -3,6 +3,7 @@ import 'package:asteroid_test_app/single_asteroid_screen.dart';
 import 'package:asteroid_test_app/theme/theme_constants.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:asteroid_test_app/util/helpers.dart';
+import 'package:asteroid_test_app/util/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -89,7 +90,8 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                           onPressed: () {
                             startDateSet = false;
                             endDateSet = false;
-                            final startDate = DateTime.parse(_startDateCtrl.text);
+                            final startDate =
+                                DateTime.parse(_startDateCtrl.text);
                             final endDate = DateTime.parse(_endDateCtrl.text);
                             final reversedOrder = startDate.isAfter(endDate);
                             ref
@@ -136,17 +138,15 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                                       ),
                                       Expanded(
                                         child: GestureDetector(
-                                          onTap: () => Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SingleAsteroidScreen(
-                                                        data
-                                                            .asteroidList
-                                                            .entries
-                                                            .first
-                                                            .value
-                                                            .first,
-                                                      ))),
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            makeSlideTransitionPageRoute(
+                                              child: SingleAsteroidScreen(
+                                                data.asteroidList.entries.first
+                                                    .value.first,
+                                              ),
+                                            ),
+                                          ),
                                           child: Column(
                                             children: [
                                               Icon(e.isPotentiallyHazardous
@@ -179,22 +179,30 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
     final result = await showDatePicker(
       context: context,
       initialDate: startDateIsFirst ? DateTime.parse(lastStartDate) : endDate,
-      firstDate: startDateIsFirst ? DateTime.parse('1960-01-01') : Jiffy.parseFromDateTime(endDate).subtract(days: 7).dateTime,
-      lastDate: startDateIsFirst ? DateTime.now() : Jiffy.parseFromDateTime(endDate).add(days: 7).dateTime,
+      firstDate: startDateIsFirst
+          ? DateTime.parse('1960-01-01')
+          : Jiffy.parseFromDateTime(endDate).subtract(days: 7).dateTime,
+      lastDate: startDateIsFirst
+          ? DateTime.now()
+          : Jiffy.parseFromDateTime(endDate).add(days: 7).dateTime,
     );
     if (result == null) return;
     startDateSet = true;
     _startDateCtrl.text = result.getFormattedDate();
   }
 
-  Future<void> _changeEndDate() async{
+  Future<void> _changeEndDate() async {
     final endDateIsFirst = startDateSet != true;
     final startDate = DateTime.parse(_startDateCtrl.text);
     final result = await showDatePicker(
-        context: context,
-        initialDate: endDateIsFirst ? DateTime.parse(lastEndDate) : startDate,
-        firstDate: endDateIsFirst ? DateTime.parse('1960-01-01') : Jiffy.parseFromDateTime(startDate).subtract(days: 7).dateTime,
-        lastDate: endDateIsFirst ? DateTime.now() : Jiffy.parseFromDateTime(startDate).add(days: 7).dateTime,
+      context: context,
+      initialDate: endDateIsFirst ? DateTime.parse(lastEndDate) : startDate,
+      firstDate: endDateIsFirst
+          ? DateTime.parse('1960-01-01')
+          : Jiffy.parseFromDateTime(startDate).subtract(days: 7).dateTime,
+      lastDate: endDateIsFirst
+          ? DateTime.now()
+          : Jiffy.parseFromDateTime(startDate).add(days: 7).dateTime,
     );
     if (result == null) return;
     if (endDateIsFirst) {

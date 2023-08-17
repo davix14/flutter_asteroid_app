@@ -114,12 +114,14 @@ class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
       },
       error: (error, stackTrace) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height * .10,
+          height: MediaQuery.of(context).size.height * .20,
           width: double.infinity,
-          child: const Center(
+          child: Center(
             child: Column(
               children: [
-                Text('Error getting image or other'),
+                const Text('Error getting image or other:'),
+                vGap8,
+                Text(error.toString())
               ],
             ),
           ),
