@@ -63,7 +63,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                             controller: _startDateCtrl,
                             onTap: _changeStartDate,
                             decoration:
-                            const InputDecoration(labelText: 'Start Date'),
+                                const InputDecoration(labelText: 'Start Date'),
                             textAlign: TextAlign.center,
                             readOnly: true,
                           ),
@@ -77,7 +77,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                             controller: _endDateCtrl,
                             onTap: _changeEndDate,
                             decoration:
-                            const InputDecoration(labelText: 'End Date'),
+                                const InputDecoration(labelText: 'End Date'),
                             textAlign: TextAlign.center,
                             readOnly: true,
                           ),
@@ -87,13 +87,13 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                             startDateSet = false;
                             endDateSet = false;
                             final startDate =
-                            DateTime.parse(_startDateCtrl.text);
+                                DateTime.parse(_startDateCtrl.text);
                             final endDate = DateTime.parse(_endDateCtrl.text);
                             final reversedOrder = startDate.isAfter(endDate);
                             ref
                                 .read(asteroidsControllerProvider.notifier)
                                 .getAsteroids(
-                                dateRangeIn: DateTimeRange(
+                                    dateRangeIn: DateTimeRange(
                                   start: reversedOrder ? endDate : startDate,
                                   end: reversedOrder ? startDate : endDate,
                                 ));
@@ -131,16 +131,10 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
       initialDate: startDateIsFirst ? DateTime.parse(lastStartDate) : endDate,
       firstDate: startDateIsFirst
           ? DateTime.parse('1960-01-01')
-          : Jiffy
-          .parseFromDateTime(endDate)
-          .subtract(days: 7)
-          .dateTime,
+          : Jiffy.parseFromDateTime(endDate).subtract(days: 7).dateTime,
       lastDate: startDateIsFirst
           ? DateTime.now()
-          : Jiffy
-          .parseFromDateTime(endDate)
-          .add(days: 7)
-          .dateTime,
+          : Jiffy.parseFromDateTime(endDate).add(days: 7).dateTime,
     );
     if (result == null) return;
     startDateSet = true;
@@ -155,16 +149,10 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
       initialDate: endDateIsFirst ? DateTime.parse(lastEndDate) : startDate,
       firstDate: endDateIsFirst
           ? DateTime.parse('1960-01-01')
-          : Jiffy
-          .parseFromDateTime(startDate)
-          .subtract(days: 7)
-          .dateTime,
+          : Jiffy.parseFromDateTime(startDate).subtract(days: 7).dateTime,
       lastDate: endDateIsFirst
           ? DateTime.now()
-          : Jiffy
-          .parseFromDateTime(startDate)
-          .add(days: 7)
-          .dateTime,
+          : Jiffy.parseFromDateTime(startDate).add(days: 7).dateTime,
     );
     if (result == null) return;
     if (endDateIsFirst) {

@@ -16,15 +16,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // titleTextStyle: Theme.of(context).appBarTheme.toolbarTextStyle,
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
           style: TextStyle(color: Colors.white),
           'OpenAsteroids',
         ),
       ),
-      body:  Padding(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
+      body: const Padding(
+        padding: EdgeInsets.only(
+          left: 12,
+          right: 12,
+          top: 8,
+          bottom: 0,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
