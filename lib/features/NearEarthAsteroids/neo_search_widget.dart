@@ -83,21 +83,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            startDateSet = false;
-                            endDateSet = false;
-                            final startDate =
-                                DateTime.parse(_startDateCtrl.text);
-                            final endDate = DateTime.parse(_endDateCtrl.text);
-                            final reversedOrder = startDate.isAfter(endDate);
-                            ref
-                                .read(asteroidsControllerProvider.notifier)
-                                .getAsteroids(
-                                    dateRangeIn: DateTimeRange(
-                                  start: reversedOrder ? endDate : startDate,
-                                  end: reversedOrder ? startDate : endDate,
-                                ));
-                          },
+                          onPressed: _submitDates,
                           icon: const Icon(Icons.rocket_launch_outlined),
                         ),
                       ],
@@ -105,9 +91,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 8.0,
-              ),
+              vGap8,
               Expanded(
                 child: CustomScrollView(
                   slivers: [
@@ -159,5 +143,18 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
       endDateSet = true;
     }
     _endDateCtrl.text = result.getFormattedDate();
+  }
+
+  void _submitDates() {
+    startDateSet = false;
+    endDateSet = false;
+    final startDate = DateTime.parse(_startDateCtrl.text);
+    final endDate = DateTime.parse(_endDateCtrl.text);
+    final reversedOrder = startDate.isAfter(endDate);
+    ref.read(asteroidsControllerProvider.notifier).getAsteroids(
+            dateRangeIn: DateTimeRange(
+          start: reversedOrder ? endDate : startDate,
+          end: reversedOrder ? startDate : endDate,
+        ));
   }
 }
