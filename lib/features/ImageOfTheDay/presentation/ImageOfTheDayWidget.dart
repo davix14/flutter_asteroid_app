@@ -35,7 +35,7 @@ class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
           imageOfDay.hdurl,
           height: context.mediaSize.height * .3,
           width: context.mediaSize.width,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
           loadingBuilder: (BuildContext context, Widget child,
               ImageChunkEvent? loadingProgress) {
             if (loadingProgress == null) return child;
