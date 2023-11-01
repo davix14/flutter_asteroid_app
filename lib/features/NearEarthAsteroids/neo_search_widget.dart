@@ -54,7 +54,9 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
                     child: Row(
                       children: [
                         hGap8,
@@ -62,8 +64,14 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                           child: TextField(
                             controller: _startDateCtrl,
                             onTap: _changeStartDate,
-                            decoration:
-                                const InputDecoration(labelText: 'Start Date'),
+                            decoration: const InputDecoration(
+                              labelText: 'Start Date',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                            ),
                             textAlign: TextAlign.center,
                             readOnly: true,
                           ),
@@ -76,8 +84,14 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                           child: TextField(
                             controller: _endDateCtrl,
                             onTap: _changeEndDate,
-                            decoration:
-                                const InputDecoration(labelText: 'End Date'),
+                            decoration: const InputDecoration(
+                              labelText: 'End Date',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                            ),
                             textAlign: TextAlign.center,
                             readOnly: true,
                           ),
