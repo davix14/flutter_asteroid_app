@@ -1,11 +1,9 @@
 import 'package:asteroid_test_app/features/NearEarthAsteroids/controller/asteroids_controller.dart';
-import 'package:asteroid_test_app/single_asteroid_screen.dart';
+import 'package:asteroid_test_app/features/NearEarthAsteroids/widgets/neo_list_slivers.dart';
 import 'package:asteroid_test_app/theme/theme_constants.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:asteroid_test_app/util/helpers.dart';
-import 'package:asteroid_test_app/util/transitions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -46,10 +44,8 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(asteroidsControllerProvider);
-    final notifier = ref.read(asteroidsControllerProvider.notifier);
     return controller.when(
         data: (data) {
-          final allAsteroids = notifier.getAllAsteroids(data);
           return Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -67,7 +63,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                             controller: _startDateCtrl,
                             onTap: _changeStartDate,
                             decoration:
-                                const InputDecoration(labelText: 'Start Date'),
+                            const InputDecoration(labelText: 'Start Date'),
                             textAlign: TextAlign.center,
                             readOnly: true,
                           ),
@@ -81,7 +77,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                             controller: _endDateCtrl,
                             onTap: _changeEndDate,
                             decoration:
-                                const InputDecoration(labelText: 'End Date'),
+                            const InputDecoration(labelText: 'End Date'),
                             textAlign: TextAlign.center,
                             readOnly: true,
                           ),
@@ -91,13 +87,13 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                             startDateSet = false;
                             endDateSet = false;
                             final startDate =
-                                DateTime.parse(_startDateCtrl.text);
+                            DateTime.parse(_startDateCtrl.text);
                             final endDate = DateTime.parse(_endDateCtrl.text);
                             final reversedOrder = startDate.isAfter(endDate);
                             ref
                                 .read(asteroidsControllerProvider.notifier)
                                 .getAsteroids(
-                                    dateRangeIn: DateTimeRange(
+                                dateRangeIn: DateTimeRange(
                                   start: reversedOrder ? endDate : startDate,
                                   end: reversedOrder ? startDate : endDate,
                                 ));
@@ -113,16 +109,25 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                 height: 8.0,
               ),
               Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    ...data.asteroidList.entries.map(NeoListSliverGroup.new),
+                    const SliverToBoxAdapter(child: SizedBox(height: 48)),
+                  ],
+                ),
+              ),
+              /*Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: allAsteroids!
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: GestureDetector(
-                                  onTap: () => Navigator.push(
+                        .map((e) =>
+                        SizedBox(
+                          width: double.infinity,
+                          child: Card(
+                            child: InkWell(
+                              onTap: () =>
+                                  Navigator.push(
                                     context,
                                     makeSlideTransitionPageRoute(
                                       child: SingleAsteroidScreen(
@@ -131,43 +136,51 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
                                       ),
                                     ),
                                   ),
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(24),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('id: ${e.name}'),
-                                              Text(
-                                                  'miss distance: ${e.missDistanceMiles}'),
-                                              Text(
-                                                  'Is Hazardous ${e.isPotentiallyHazardous.toString()}'),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Icon(e.isPotentiallyHazardous
-                                                    ? Icons.dangerous
-                                                    : Icons
-                                                        .health_and_safety_outlined),
-                                              ],
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Name: ${e.name}'),
+                                        Text(
+                                            'Miss Distance: ${e
+                                                .missDistanceMiles} mi'),
+                                        Text(
+                                            'Is Hazardous ${e
+                                                .isPotentiallyHazardous
+                                                .toString()}'),
+                                      ],
+                                    ),
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          children: [
+                                            Icon(e.isPotentiallyHazardous
+                                                ? Icons.error_outline
+                                                : Icons.gpp_good_outlined,
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                            ))
+                            ),
+                          ),
+                        ),)
                         .toList(),
                   ),
                 ),
-              ),
+              ),*/
             ],
           );
         },
@@ -183,10 +196,16 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
       initialDate: startDateIsFirst ? DateTime.parse(lastStartDate) : endDate,
       firstDate: startDateIsFirst
           ? DateTime.parse('1960-01-01')
-          : Jiffy.parseFromDateTime(endDate).subtract(days: 7).dateTime,
+          : Jiffy
+          .parseFromDateTime(endDate)
+          .subtract(days: 7)
+          .dateTime,
       lastDate: startDateIsFirst
           ? DateTime.now()
-          : Jiffy.parseFromDateTime(endDate).add(days: 7).dateTime,
+          : Jiffy
+          .parseFromDateTime(endDate)
+          .add(days: 7)
+          .dateTime,
     );
     if (result == null) return;
     startDateSet = true;
@@ -201,10 +220,16 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
       initialDate: endDateIsFirst ? DateTime.parse(lastEndDate) : startDate,
       firstDate: endDateIsFirst
           ? DateTime.parse('1960-01-01')
-          : Jiffy.parseFromDateTime(startDate).subtract(days: 7).dateTime,
+          : Jiffy
+          .parseFromDateTime(startDate)
+          .subtract(days: 7)
+          .dateTime,
       lastDate: endDateIsFirst
           ? DateTime.now()
-          : Jiffy.parseFromDateTime(startDate).add(days: 7).dateTime,
+          : Jiffy
+          .parseFromDateTime(startDate)
+          .add(days: 7)
+          .dateTime,
     );
     if (result == null) return;
     if (endDateIsFirst) {

@@ -23,10 +23,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           'OpenAsteroids',
         ),
       ),
-      body:  const Padding(
+      body:  Padding(
         padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
             ImageOfTheDayWidget(),
             vGap8,
