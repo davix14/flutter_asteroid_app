@@ -109,7 +109,7 @@ class NEOSearchState extends ConsumerState<NEOSearchWidget> {
               Expanded(
                 child: CustomScrollView(
                   slivers: [
-                    ...data.asteroidList.entries.map(NeoListSliverGroup.new),
+                    ...data.entries.map(NeoListSliverGroup.new),
                     const SliverToBoxAdapter(child: SizedBox(height: 48)),
                   ],
                 ),

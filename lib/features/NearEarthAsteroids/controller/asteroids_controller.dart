@@ -1,15 +1,17 @@
 import 'package:asteroid_test_app/features/NearEarthAsteroids/models/nea_model.dart';
 import 'package:asteroid_test_app/features/NearEarthAsteroids/service/nea_service.dart';
+import 'package:asteroid_test_app/util/helpers.dart';
 import 'package:asteroid_test_app/util/local_storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 
 final asteroidsControllerProvider = StateNotifierProvider.autoDispose<
-    AsteroidsController,
-    AsyncValue<NeaModel>>((ref) => AsteroidsController(ref));
+        AsteroidsController, AsyncValue<Map<String, List<SingleAsteroid>>>>(
+    (ref) => AsteroidsController(ref));
 
-class AsteroidsController extends StateNotifier<AsyncValue<NeaModel>> {
+class AsteroidsController
+    extends StateNotifier<AsyncValue<Map<String, List<SingleAsteroid>>>> {
   AsteroidsController(this._ref) : super(const AsyncValue.loading()) {
     getAsteroids();
   }
@@ -36,20 +38,24 @@ class AsteroidsController extends StateNotifier<AsyncValue<NeaModel>> {
                     _ref.read(localStorageProvider).lastEndDateUsed));
       }
       latestAsteroids = await _neaService.getNea(lastDate);
-      state = AsyncValue.data(latestAsteroids!);
+      state = AsyncValue.data(_sortLatestAsteroids());
     } catch (e, stacktrace) {
       print('error getting asteroids: $stacktrace');
       state = AsyncValue.error(e, stacktrace);
     }
   }
 
-  List<SingleAsteroid>? getAllAsteroids(NeaModel neaM) {
-    final List<SingleAsteroid>fullList = [];
-    for (final day in neaM.asteroidList.values) {
-      for (final single in day) {
-        fullList.add(single);
-      }
+  Map<String, List<SingleAsteroid>> _sortLatestAsteroids() {
+    Map<String, List<SingleAsteroid>> newMp = {};
+
+    for (var i = 0; i < latestAsteroids!.asteroidList.entries.length; i++) {
+      final date = Jiffy.parseFromDateTime(lastDate.start)
+          .add(days: i)
+          .dateTime
+          .getFormattedDate();
+      newMp.putIfAbsent(date, () => latestAsteroids!.asteroidList[date]!);
     }
-    return fullList;
+
+    return newMp;
   }
 }
