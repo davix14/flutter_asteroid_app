@@ -25,7 +25,7 @@ class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProv
   void prepareAnimations() {
     expandController = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
     );
     var curve = CurvedAnimation(
       parent: expandController,

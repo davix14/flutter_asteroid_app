@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
   transitionDuration = const Duration(milliseconds: 500),
 }) {
   return PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 500),
+    transitionDuration: const Duration(milliseconds: 500),
     pageBuilder: (context, animation,
         secondaryAnimation) =>
     child,

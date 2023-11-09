@@ -6,9 +6,9 @@ part of 'ImageOfTheDayModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ImageOfTheDayModel _$$_ImageOfTheDayModelFromJson(
+_$ImageOfTheDayModelImpl _$$ImageOfTheDayModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ImageOfTheDayModel(
+    _$ImageOfTheDayModelImpl(
       copyright: json['copyright'] as String?,
       date: json['date'] as String,
       explanation: json['explanation'] as String,
@@ -19,8 +19,8 @@ _$_ImageOfTheDayModel _$$_ImageOfTheDayModelFromJson(
       url: json['url'] as String,
     );
 
-Map<String, dynamic> _$$_ImageOfTheDayModelToJson(
-        _$_ImageOfTheDayModel instance) =>
+Map<String, dynamic> _$$ImageOfTheDayModelImplToJson(
+        _$ImageOfTheDayModelImpl instance) =>
     <String, dynamic>{
       'copyright': instance.copyright,
       'date': instance.date,

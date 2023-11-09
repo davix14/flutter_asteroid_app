@@ -112,11 +112,11 @@ class _$ImageOfTheDayModelCopyWithImpl<$Res, $Val extends ImageOfTheDayModel>
 }
 
 /// @nodoc
-abstract class _$$_ImageOfTheDayModelCopyWith<$Res>
+abstract class _$$ImageOfTheDayModelImplCopyWith<$Res>
     implements $ImageOfTheDayModelCopyWith<$Res> {
-  factory _$$_ImageOfTheDayModelCopyWith(_$_ImageOfTheDayModel value,
-          $Res Function(_$_ImageOfTheDayModel) then) =
-      __$$_ImageOfTheDayModelCopyWithImpl<$Res>;
+  factory _$$ImageOfTheDayModelImplCopyWith(_$ImageOfTheDayModelImpl value,
+          $Res Function(_$ImageOfTheDayModelImpl) then) =
+      __$$ImageOfTheDayModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_ImageOfTheDayModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ImageOfTheDayModelCopyWithImpl<$Res>
-    extends _$ImageOfTheDayModelCopyWithImpl<$Res, _$_ImageOfTheDayModel>
-    implements _$$_ImageOfTheDayModelCopyWith<$Res> {
-  __$$_ImageOfTheDayModelCopyWithImpl(
-      _$_ImageOfTheDayModel _value, $Res Function(_$_ImageOfTheDayModel) _then)
+class __$$ImageOfTheDayModelImplCopyWithImpl<$Res>
+    extends _$ImageOfTheDayModelCopyWithImpl<$Res, _$ImageOfTheDayModelImpl>
+    implements _$$ImageOfTheDayModelImplCopyWith<$Res> {
+  __$$ImageOfTheDayModelImplCopyWithImpl(_$ImageOfTheDayModelImpl _value,
+      $Res Function(_$ImageOfTheDayModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -150,7 +150,7 @@ class __$$_ImageOfTheDayModelCopyWithImpl<$Res>
     Object? title = null,
     Object? url = null,
   }) {
-    return _then(_$_ImageOfTheDayModel(
+    return _then(_$ImageOfTheDayModelImpl(
       copyright: freezed == copyright
           ? _value.copyright
           : copyright // ignore: cast_nullable_to_non_nullable
@@ -190,8 +190,8 @@ class __$$_ImageOfTheDayModelCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_ImageOfTheDayModel implements _ImageOfTheDayModel {
-  const _$_ImageOfTheDayModel(
+class _$ImageOfTheDayModelImpl implements _ImageOfTheDayModel {
+  const _$ImageOfTheDayModelImpl(
       {this.copyright,
       required this.date,
       required this.explanation,
@@ -201,8 +201,8 @@ class _$_ImageOfTheDayModel implements _ImageOfTheDayModel {
       required this.title,
       required this.url});
 
-  factory _$_ImageOfTheDayModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ImageOfTheDayModelFromJson(json);
+  factory _$ImageOfTheDayModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageOfTheDayModelImplFromJson(json);
 
   @override
   final String? copyright;
@@ -230,7 +230,7 @@ class _$_ImageOfTheDayModel implements _ImageOfTheDayModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageOfTheDayModel &&
+            other is _$ImageOfTheDayModelImpl &&
             (identical(other.copyright, copyright) ||
                 other.copyright == copyright) &&
             (identical(other.date, date) || other.date == date) &&
@@ -253,13 +253,13 @@ class _$_ImageOfTheDayModel implements _ImageOfTheDayModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageOfTheDayModelCopyWith<_$_ImageOfTheDayModel> get copyWith =>
-      __$$_ImageOfTheDayModelCopyWithImpl<_$_ImageOfTheDayModel>(
+  _$$ImageOfTheDayModelImplCopyWith<_$ImageOfTheDayModelImpl> get copyWith =>
+      __$$ImageOfTheDayModelImplCopyWithImpl<_$ImageOfTheDayModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ImageOfTheDayModelToJson(
+    return _$$ImageOfTheDayModelImplToJson(
       this,
     );
   }
@@ -274,10 +274,10 @@ abstract class _ImageOfTheDayModel implements ImageOfTheDayModel {
       required final String service_version,
       required final String media_type,
       required final String title,
-      required final String url}) = _$_ImageOfTheDayModel;
+      required final String url}) = _$ImageOfTheDayModelImpl;
 
   factory _ImageOfTheDayModel.fromJson(Map<String, dynamic> json) =
-      _$_ImageOfTheDayModel.fromJson;
+      _$ImageOfTheDayModelImpl.fromJson;
 
   @override
   String? get copyright;
@@ -297,6 +297,6 @@ abstract class _ImageOfTheDayModel implements ImageOfTheDayModel {
   String get url;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageOfTheDayModelCopyWith<_$_ImageOfTheDayModel> get copyWith =>
+  _$$ImageOfTheDayModelImplCopyWith<_$ImageOfTheDayModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

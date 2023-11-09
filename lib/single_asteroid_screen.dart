@@ -66,28 +66,28 @@ class SingleAsteroidScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(child: Text('Miss Distance (Miles):', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
-                            Flexible(child: Text(_asteroidIn.missDistanceMiles.toString() + ' mi.', style: const TextStyle(fontSize: tx19))),
+                            Flexible(child: Text('${_asteroidIn.missDistanceMiles} mi.', style: const TextStyle(fontSize: tx19))),
                           ],),
                         dividerH15T1,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(child: Text('Relative Velocity MPH', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
-                            Flexible(child: Text(_asteroidIn.relativeVelocityMPH.toString() + ' MPH', style: const TextStyle(fontSize: tx19))),
+                            Flexible(child: Text('${_asteroidIn.relativeVelocityMPH} MPH', style: const TextStyle(fontSize: tx19))),
                           ],),
                         dividerH15T1,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(child: Text('Min Estimated Diameter (Miles):', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
-                            Flexible(child: Text(_asteroidIn.estimatedDiameterMilesMin.toString() + ' mi.', style: const TextStyle(fontSize: tx19))),
+                            Flexible(child: Text('${_asteroidIn.estimatedDiameterMilesMin} mi.', style: const TextStyle(fontSize: tx19))),
                           ],),
                         dividerH15T1,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(child: Text('Max Estimated Diameter (Miles):', style: TextStyle(fontSize: tx19, fontWeight: FontWeight.bold),)),
-                            Flexible(child: Text(_asteroidIn.estimatedDiameterMilesMax.toString() + ' mi.', style: const TextStyle(fontSize: tx19))),
+                            Flexible(child: Text('${_asteroidIn.estimatedDiameterMilesMax} mi.', style: const TextStyle(fontSize: tx19))),
                           ],),
                       ]),
                     ),
