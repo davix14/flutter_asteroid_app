@@ -38,28 +38,6 @@ class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
           width: context.mediaSize.width,
           fit: BoxFit.cover,
         );
-        // final image = Image.network(
-        //   imageOfDay.hdurl,
-        //   height: context.mediaSize.height * .3,
-        //   width: context.mediaSize.width,
-        //   fit: BoxFit.cover,
-        //   loadingBuilder: (BuildContext context, Widget child,
-        //       ImageChunkEvent? loadingProgress) {
-        //     if (loadingProgress == null) return child;
-        //     return SizedBox(
-        //       height: context.mediaSize.height * .3,
-        //       width: context.mediaSize.width,
-        //       child: Center(
-        //         child: CircularProgressIndicator(
-        //           value: loadingProgress.expectedTotalBytes != null
-        //               ? loadingProgress.cumulativeBytesLoaded /
-        //                   loadingProgress.expectedTotalBytes!
-        //               : null,
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
         image2.image
             .resolve(const ImageConfiguration())
             .addListener(ImageStreamListener((image, synchronousCall) {

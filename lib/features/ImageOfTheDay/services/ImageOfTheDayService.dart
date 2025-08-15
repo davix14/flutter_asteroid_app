@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class ImageOfTheDayService {
   late ImageOfTheDayModel latestResponse;
   late Uint8List imageBytes;
-
+// TODO: remove hard-coded API key into build/env files
   Future<ImageOfTheDayModel> getImageOfTheDay() async {
     final url = Uri.https('api.nasa.gov', '/planetary/apod',
         {'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
- makeSlideTransitionPageRoute({
+ PageRouteBuilder makeSlideTransitionPageRoute({
   required Widget child,
   transitionDuration = const Duration(milliseconds: 500),
 }) {
