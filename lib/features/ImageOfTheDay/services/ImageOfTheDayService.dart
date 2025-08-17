@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:asteroid_test_app/features/ImageOfTheDay/model/ImageOfTheDayModel.dart';
+import 'package:asteroid_test_app/features/ImageOfTheDay/model/image_of_the_day.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 

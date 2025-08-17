@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../theme/theme_constants.dart';
 import '../services/ImageOfTheDayService.dart';
-import '../model/ImageOfTheDayModel.dart';
+import '../model/image_of_the_day.dart';
 
 class ImageOfTheDayWidget extends ConsumerStatefulWidget {
   const ImageOfTheDayWidget({super.key});

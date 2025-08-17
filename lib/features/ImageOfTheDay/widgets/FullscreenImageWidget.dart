@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:asteroid_test_app/features/ImageOfTheDay/model/ImageOfTheDayModel.dart';
+import 'package:asteroid_test_app/features/ImageOfTheDay/model/image_of_the_day.dart';
 import 'package:asteroid_test_app/features/ImageOfTheDay/services/download_image_service.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:flutter/material.dart';

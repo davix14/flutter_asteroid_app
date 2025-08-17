@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ImageOfTheDayModel.dart';
+part of 'image_of_the_day.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

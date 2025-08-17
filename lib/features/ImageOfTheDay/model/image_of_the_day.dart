@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'ImageOfTheDayModel.freezed.dart';
-part 'ImageOfTheDayModel.g.dart';
+part 'image_of_the_day.freezed.dart';
+part 'image_of_the_day.g.dart';
 
 @freezed
-class ImageOfTheDayModel with _$ImageOfTheDayModel {
+abstract class ImageOfTheDayModel with _$ImageOfTheDayModel {
   @JsonSerializable(explicitToJson: true)
   const factory ImageOfTheDayModel({
     String? copyright,
