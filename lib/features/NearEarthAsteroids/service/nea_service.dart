@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:asteroid_test_app/util/config.dart';
 import 'package:asteroid_test_app/util/helpers.dart';
 import 'package:asteroid_test_app/util/local_storage_repository.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class NeaService {
       final url = Uri.https('api.nasa.gov', '/neo/rest/v1/feed', {
         'start_date': dateRangeIn.start.getFormattedDate(),
         'end_date': dateRangeIn.end.getFormattedDate(),
-        'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'
+        'api_key': AppConfig.nasaApiKey
       });
       final response = await http.get(url);
       final parsed = jsonDecode(response.body);

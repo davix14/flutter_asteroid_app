@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:asteroid_test_app/features/ImageOfTheDay/model/image_of_the_day.dart';
+import 'package:asteroid_test_app/util/config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-
 
 class ImageOfTheDayService {
   late ImageOfTheDayModel latestResponse;
   late Uint8List imageBytes;
-// TODO: remove hard-coded API key into build/env files
+
   Future<ImageOfTheDayModel> getImageOfTheDay() async {
     final url = Uri.https('api.nasa.gov', '/planetary/apod',
-        {'api_key': '2JabBjC25TuPzOsfWYLBsxyzv6yIZmOT3WmDgIzn'});
+        {'api_key': AppConfig.nasaApiKey});
     final response = await http.get(url);
     print(response.toString());
     latestResponse = ImageOfTheDayModel.fromJson(jsonDecode(response.body));

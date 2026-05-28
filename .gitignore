@@ -52,3 +52,6 @@ app.*.map.json
 **/flutter/generated_plugin_registrant.cc
 **/flutter/generated_plugins.cmake
 **/flutter/generated_plugin_registrant.h
+
+# Private environment files
+.env

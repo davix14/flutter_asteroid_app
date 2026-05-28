@@ -24,8 +24,8 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
   ///If the box is expanded
   bool _isExpanded = true;
 
-  ///Toogle the box to expand or collapse
-  void _toogleExpand() {
+  ///Toggle the box to expand or collapse
+  void _toggleExpand() {
     setState(() {
       _isExpanded = !_isExpanded;
     });
@@ -131,7 +131,7 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                     Padding(
                         padding: const EdgeInsets.all(p8),
                         child: IconButton(
-                            onPressed: _toogleExpand,
+                            onPressed: _toggleExpand,
                             icon: Icon(
                               _isExpanded
                                   ? Icons.arrow_downward
