@@ -5,7 +5,6 @@ part 'image_of_the_day.g.dart';
 
 @freezed
 abstract class ImageOfTheDayModel with _$ImageOfTheDayModel {
-  @JsonSerializable(explicitToJson: true)
   const factory ImageOfTheDayModel({
     String? copyright,
     required String date,
