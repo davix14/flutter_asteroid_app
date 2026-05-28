@@ -12,7 +12,8 @@
 .swiftpm/
 migrate_working_dir/
 macos/Flutter/GeneratedPluginRegistrant.swift
-ios/Podfile.lock
+/ios/Podfile.lock
+/linux/flutter/generated_plugins.cmake
 
 # IntelliJ related
 *.iml
