@@ -17,7 +17,7 @@ class FullscreenImageWidget extends StatefulWidget {
   final Uint8List imgBytes;
 
   @override
-  _FullscreenImageState createState() => _FullscreenImageState();
+  State<FullscreenImageWidget> createState() => _FullscreenImageState();
 }
 
 class _FullscreenImageState extends State<FullscreenImageWidget> {
@@ -85,6 +85,7 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                               final result = await ref
                                   .read(downloadImageServiceProvider)
                                   .saveImageOfTheDay(widget.imgBytes);
+                              if (!context.mounted) return;
                               ScaffoldMessenger.of(context)
                                 ..hideCurrentSnackBar()
                                 ..showSnackBar(
