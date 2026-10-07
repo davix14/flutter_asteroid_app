@@ -1,4 +1,4 @@
-import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/FullscreenImageWidget.dart';
+import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/fullscreen_image_widget.dart';
 import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/image_of_the_day_error.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:asteroid_test_app/util/transitions.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../theme/animations/loading_shimmer.dart';
 import '../../../theme/theme_constants.dart';
-import '../services/ImageOfTheDayService.dart';
+import '../services/image_of_the_day_service.dart';
 import '../model/image_of_the_day.dart';
 
 class ImageOfTheDayWidget extends ConsumerWidget {
