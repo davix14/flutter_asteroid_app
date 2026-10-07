@@ -1,4 +1,5 @@
 import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/FullscreenImageWidget.dart';
+import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/image_of_the_day_error.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:asteroid_test_app/util/transitions.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
     );
 
     return latestImageFuture.when(
+      skipLoadingOnReload: false,
       data: (imageOfDay) {
         final imgBytes = ref.read(imageOfTheDayServiceProvider).imageBytes;
         final image2 = Image.memory(
@@ -68,19 +70,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * .20,
-          width: double.infinity,
-          child: Center(
-            child: Column(
-              children: [
-                const Text('Error getting image or other:'),
-                vGap8,
-                Text(error.toString()),
-              ],
-            ),
-          ),
-        );
+        return ImageOfTheDayError(error, stackTrace, () => ref.refresh(latestImageOfTheDayFutureProvider));
       },
       loading: () => SizedBox(
         height: context.mediaSize.height * .3,

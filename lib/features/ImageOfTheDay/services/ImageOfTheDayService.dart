@@ -12,17 +12,11 @@ class ImageOfTheDayService {
   late Uint8List imageBytes;
 
   Future<ImageOfTheDayModel> getImageOfTheDay() async {
-    // final url = Uri.https('api.nasa.gov', '/planetary/apod',
-    //     {'api_key': AppConfig.nasaApiKey});
-
     final url = Uri.https('science.nasa.gov', '/wp-json/wp/v2/apod-basic',
         {'per_page': '1',
           'api_key': AppConfig.nasaApiKey} );
-    print(url.toString());
     final response = await http.get(url);
-    print(response.toString());
-    final resJson = jsonDecode(response.body);
-    final processedRes = ImageResponse.fromJson(resJson);
+    final processedRes = ImageResponse.fromJson(jsonDecode(response.body));
     latestResponse = processedRes.imotdRes.first;
     await getImageBytes();
     return latestResponse;
