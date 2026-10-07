@@ -9,137 +9,96 @@ import '../../../theme/theme_constants.dart';
 import '../services/ImageOfTheDayService.dart';
 import '../model/image_of_the_day.dart';
 
-class ImageOfTheDayWidget extends ConsumerStatefulWidget {
+class ImageOfTheDayWidget extends ConsumerWidget {
   const ImageOfTheDayWidget({super.key});
 
   @override
-  ConsumerState createState() => _ImageOfTheDayState();
-}
-
-class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
-  late bool _doneLoading;
-
-  @override
-  void initState() {
-    super.initState();
-    _doneLoading = false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final AsyncValue<ImageOfTheDayModel> latestImageFuture =
-    ref.watch(latestImageOfTheDayFutureProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<ImageOfTheDayModel> latestImageFuture = ref.watch(
+      latestImageOfTheDayFutureProvider,
+    );
 
     return latestImageFuture.when(
-        data: (imageOfDay) {
-          final imgBytes = ref
-              .read(imageOfTheDayServiceProvider)
-              .imageBytes;
-          final image2 = Image.memory(
-            imgBytes,
-            height: context.mediaSize.height * .3,
-            width: context.mediaSize.width,
-            fit: BoxFit.cover,
-          );
-          image2.image
-              .resolve(const ImageConfiguration())
-              .addListener(ImageStreamListener((image, synchronousCall) {
-            if (mounted) {
-              setState(() {
-                _doneLoading = true;
-              });
-            }
-          }));
-          return Stack(
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: image2,
+      data: (imageOfDay) {
+        final imgBytes = ref.read(imageOfTheDayServiceProvider).imageBytes;
+        final image2 = Image.memory(
+          imgBytes,
+          height: context.mediaSize.height * .3,
+          width: context.mediaSize.width,
+          fit: BoxFit.cover,
+        );
+
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Stack(
+            children: [
+              image2,
+              // Top Title
+              Positioned(
+                top: 8,
+                left: 8,
+                right: 8,
+                child: Text(
+                  imageOfDay.title,
+                  style: const TextStyle(color: Colors.white, fontSize: tx19),
+                ),
               ),
-              if (_doneLoading)
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              imageOfDay.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: tx19,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: context.mediaSize.height * .19,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 4, top: 0),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.fullscreen_outlined,
-                            color: Colors.white,
-                          ),
-                          onPressed: () =>
-                              Navigator.push(
-                                context,
-                                makeSlideTransitionPageRoute(
-                                    child: FullscreenImageWidget(
-                                      imageOfDay: imageOfDay,
-                                      imgBytes: imgBytes,
-                                    )),
-                              ),
-                        ),
+              // Fullscreen button
+              Positioned(
+                bottom: 4,
+                left: 4,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.fullscreen_outlined,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    makeSlideTransitionPageRoute(
+                      child: FullscreenImageWidget(
+                        imageOfDay: imageOfDay,
+                        imgBytes: imgBytes,
                       ),
                     ),
-                  ],
+                  ),
                 ),
+              ),
             ],
-          );
-        },
-        error: (error, stackTrace) {
-          return SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * .20,
-            width: double.infinity,
-            child: Center(
-              child: Column(
-                children: [
-                  const Text('Error getting image or other:'),
-                  vGap8,
-                  Text(error.toString())
-                ],
-              ),
+          ),
+        );
+      },
+      error: (error, stackTrace) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * .20,
+          width: double.infinity,
+          child: Center(
+            child: Column(
+              children: [
+                const Text('Error getting image or other:'),
+                vGap8,
+                Text(error.toString()),
+              ],
             ),
-          );
-        },
-        loading: () =>
-            SizedBox(
-              height: context.mediaSize.height * .3,
-              width: context.mediaSize.width,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: const LoadingShimmer(
-                  cycle: Duration(seconds: 1),
-                  colors: <Color>[
-                    Colors.white,
-                    Colors.grey,
-                    Colors.white,
-                    Colors.grey,
-                    Colors.white,
-                  ],
-                ),
-              ),
-            )
+          ),
+        );
+      },
+      loading: () => SizedBox(
+        height: context.mediaSize.height * .3,
+        width: context.mediaSize.width,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: const LoadingShimmer(
+            cycle: Duration(seconds: 1),
+            colors: <Color>[
+              Colors.white,
+              Colors.grey,
+              Colors.white,
+              Colors.grey,
+              Colors.white,
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
