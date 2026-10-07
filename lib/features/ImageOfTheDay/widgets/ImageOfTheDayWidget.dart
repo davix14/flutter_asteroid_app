@@ -4,6 +4,7 @@ import 'package:asteroid_test_app/util/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../theme/animations/loading_shimmer.dart';
 import '../../../theme/theme_constants.dart';
 import '../services/ImageOfTheDayService.dart';
 import '../model/image_of_the_day.dart';
@@ -27,95 +28,118 @@ class _ImageOfTheDayState extends ConsumerState<ImageOfTheDayWidget> {
   @override
   Widget build(BuildContext context) {
     final AsyncValue<ImageOfTheDayModel> latestImageFuture =
-        ref.watch(latestImageOfTheDayFutureProvider);
+    ref.watch(latestImageOfTheDayFutureProvider);
 
     return latestImageFuture.when(
-      data: (imageOfDay) {
-        final imgBytes = ref.read(imageOfTheDayServiceProvider).imageBytes;
-        final image2 = Image.memory(
-          imgBytes,
-          height: context.mediaSize.height * .3,
-          width: context.mediaSize.width,
-          fit: BoxFit.cover,
-        );
-        image2.image
-            .resolve(const ImageConfiguration())
-            .addListener(ImageStreamListener((image, synchronousCall) {
-          if (mounted) {
-            setState(() {
-              _doneLoading = true;
-            });
-          }
-        }));
-        return Stack(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: image2,
-            ),
-            if (_doneLoading)
-              Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            imageOfDay.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: tx19,
+        data: (imageOfDay) {
+          final imgBytes = ref
+              .read(imageOfTheDayServiceProvider)
+              .imageBytes;
+          final image2 = Image.memory(
+            imgBytes,
+            height: context.mediaSize.height * .3,
+            width: context.mediaSize.width,
+            fit: BoxFit.cover,
+          );
+          image2.image
+              .resolve(const ImageConfiguration())
+              .addListener(ImageStreamListener((image, synchronousCall) {
+            if (mounted) {
+              setState(() {
+                _doneLoading = true;
+              });
+            }
+          }));
+          return Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: image2,
+              ),
+              if (_doneLoading)
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              imageOfDay.title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: tx19,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: context.mediaSize.height * .19,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 4, top: 0),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.fullscreen_outlined,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => Navigator.push(
-                          context,
-                          makeSlideTransitionPageRoute(
-                              child: FullscreenImageWidget(
-                            imageOfDay: imageOfDay,
-                            imgBytes: imgBytes,
-                          )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: context.mediaSize.height * .19,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4, top: 0),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.fullscreen_outlined,
+                            color: Colors.white,
+                          ),
+                          onPressed: () =>
+                              Navigator.push(
+                                context,
+                                makeSlideTransitionPageRoute(
+                                    child: FullscreenImageWidget(
+                                      imageOfDay: imageOfDay,
+                                      imgBytes: imgBytes,
+                                    )),
+                              ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
+            ],
+          );
+        },
+        error: (error, stackTrace) {
+          return SizedBox(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * .20,
+            width: double.infinity,
+            child: Center(
+              child: Column(
+                children: [
+                  const Text('Error getting image or other:'),
+                  vGap8,
+                  Text(error.toString())
                 ],
               ),
-          ],
-        );
-      },
-      error: (error, stackTrace) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * .20,
-          width: double.infinity,
-          child: Center(
-            child: Column(
-              children: [
-                const Text('Error getting image or other:'),
-                vGap8,
-                Text(error.toString())
-              ],
             ),
-          ),
-        );
-      },
-      loading: () => const CircularProgressIndicator(),
+          );
+        },
+        loading: () =>
+            SizedBox(
+              height: context.mediaSize.height * .3,
+              width: context.mediaSize.width,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: const LoadingShimmer(
+                  cycle: Duration(seconds: 1),
+                  colors: <Color>[
+                    Colors.white,
+                    Colors.grey,
+                    Colors.white,
+                    Colors.grey,
+                    Colors.white,
+                  ],
+                ),
+              ),
+            )
     );
   }
 }
