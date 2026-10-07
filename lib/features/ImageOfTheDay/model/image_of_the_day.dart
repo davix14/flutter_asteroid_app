@@ -6,14 +6,19 @@ part 'image_of_the_day.g.dart';
 @freezed
 abstract class ImageOfTheDayModel with _$ImageOfTheDayModel {
   const factory ImageOfTheDayModel({
-    String? copyright,
     required String date,
+    required int post_id,
+    required String permalink,
+    required String credit,
+    required String copyright,
     required String explanation,
+    required String alt,
     required String hdurl,
-    required String service_version,
     required String media_type,
     required String title,
     required String url,
+    required String basic_html,
+    required String basic_html_url,
   }) = _ImageOfTheDayModel;
 
   factory ImageOfTheDayModel.fromJson(Map<String, Object?> json) =>
@@ -21,6 +26,23 @@ abstract class ImageOfTheDayModel with _$ImageOfTheDayModel {
 }
 
 /*
+EXAMPLE RESPONSES -- NEW
+{
+"date": "2026-09-11",
+"post_id": 1308668,
+"title": "M83: The Southern Pinwheel",
+"permalink": "https://science.nasa.gov/image-article/apod-2026-september-11-m83-the-southern-pinwheel/",
+"media_type": "image",
+"explanation": "Detailed Explanation",
+"credit": "Aldo Zanetti",
+"copyright": "Aldo Zanetti",
+"alt": "A spiral galaxy is shown in front of a dark field of stars.",
+"url": "https://science.nasa.gov/image-article/apod-2026-september-11-m83-the-southern-pinwheel/",
+"hdurl": "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/apod/apod/2026/september/M83_Final2_1x.jpg?w=3828&h=3798&fit=clip&crop=faces%2Cfocalpoint",
+"basic_html": "HTML of the page",
+"basic_html_url": "https://science.nasa.gov/wp-json/wp/v2/apod-basic/260911/html"
+}
+
 EXAMPLE RESPONSES
 {
     "date": "2023-03-03",
