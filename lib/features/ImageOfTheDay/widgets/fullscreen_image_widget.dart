@@ -203,11 +203,3 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
     );
   }
 }
-
-/*
-* Text(
-                                      widget.imageOfDay.explanation,
-                                      style: const TextStyle(
-                                          color: Colors.white70),
-                                    ),
-* */
