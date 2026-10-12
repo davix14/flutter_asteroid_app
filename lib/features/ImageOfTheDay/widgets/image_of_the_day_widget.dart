@@ -58,7 +58,8 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                     context,
                     makeSlideTransitionPageRoute(
                       child: FullscreenImageWidget(
-                        imageOfDay: imageOfDay,
+                        title: imageOfDay.title,
+                        explanation: imageOfDay.explanation,
                         imgBytes: imgBytes,
                       ),
                     ),

@@ -1,44 +1,24 @@
 import 'dart:typed_data';
 
-import 'package:asteroid_test_app/features/ImageOfTheDay/model/image_of_the_day.dart';
 import 'package:asteroid_test_app/features/ImageOfTheDay/services/download_image_service.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:photo_view/photo_view.dart';
 
-import '../../../theme/theme_constants.dart';
+import 'fullscreen_iotd/explanation_widget.dart';
 
-class FullscreenImageWidget extends StatefulWidget {
+class FullscreenImageWidget extends StatelessWidget {
   const FullscreenImageWidget({
     super.key,
-    required this.imageOfDay,
+    required this.title,
+    required this.explanation,
     required this.imgBytes,
   });
 
-  final ImageOfTheDayModel imageOfDay;
+  final String title;
+  final String explanation;
   final Uint8List imgBytes;
-
-  @override
-  State<FullscreenImageWidget> createState() => _FullscreenImageState();
-}
-
-class _FullscreenImageState extends State<FullscreenImageWidget> {
-  ///If the box is expanded
-  bool _isExpanded = true;
-
-  ///Toggle the box to expand or collapse
-  void _toggleExpand() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,153 +29,82 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
           children: [
             PhotoView(
               imageProvider: Image.memory(
-                widget.imgBytes,
+                imgBytes,
                 height: context.mediaSize.height * .8,
                 width: context.mediaSize.width,
               ).image,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    SizedBox(height: context.mediaSize.height * .10),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.keyboard_double_arrow_left),
-                        color: Colors.white,
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    SizedBox(height: context.mediaSize.height * .10),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Consumer(
-                        builder:
-                            (
-                              BuildContext context,
-                              WidgetRef ref,
-                              Widget? child,
-                            ) {
-                              return IconButton(
-                                icon: const Icon(Icons.download),
-                                color: Colors.white,
-                                onPressed: () async {
-                                  final result = await ref
-                                      .read(downloadImageServiceProvider)
-                                      .saveImageOfTheDay(widget.imgBytes);
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Theme.of(
-                                          context,
-                                        ).primaryColor,
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Icon(
-                                              result
-                                                  ? Icons.info_outline
-                                                  : Icons
-                                                        .phonelink_erase_rounded,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              result
-                                                  ? 'Saved image successfully'
-                                                  : 'Error saving image',
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                },
-                              );
-                            },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 1000),
-                  curve: Curves.fastOutSlowIn,
-                  height: _isExpanded
-                      ? context.mediaSize.height * .66
-                      : context.mediaSize.height * .9,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(p8),
-                      child: IconButton(
-                        onPressed: _toggleExpand,
-                        icon: Icon(
-                          _isExpanded
-                              ? Icons.arrow_downward
-                              : Icons.arrow_upward,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ),
-                    hGap10,
-                    Text(
-                      widget.imageOfDay.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ],
-                ),
-                Flexible(
-                  child: SizedBox(
-                    height: _isExpanded
-                        ? context.mediaSize.height * .25
-                        : context.mediaSize.height * 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        elevation: 0,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.all(p8),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                if (_isExpanded)
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: p8,
-                                    ),
-                                    child: HtmlWidget(
-                                      widget.imageOfDay.explanation,
-                                      textStyle: const TextStyle(
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+            // back button
+            Positioned(
+              top: 0,
+              left: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.keyboard_double_arrow_left),
+                    color: Colors.white,
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
-              ],
+              ),
+            ),
+            // download icon
+            Positioned(
+              top: 0,
+              right: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Consumer(
+                    builder:
+                        (BuildContext context, WidgetRef ref, Widget? child) {
+                          return IconButton(
+                            icon: const Icon(Icons.download),
+                            color: Colors.white,
+                            onPressed: () async {
+                              final result = await ref
+                                  .read(downloadImageServiceProvider)
+                                  .saveImageOfTheDay(imgBytes);
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).primaryColor,
+                                    content: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(
+                                          result
+                                              ? Icons.info_outline
+                                              : Icons.phonelink_erase_rounded,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                          result
+                                              ? 'Saved image successfully'
+                                              : 'Error saving image',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                            },
+                          );
+                        },
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 40,
+              left: 10,
+              right: 10,
+              child: ExplanationWidget(title: title, explanation: explanation),
             ),
           ],
         ),
