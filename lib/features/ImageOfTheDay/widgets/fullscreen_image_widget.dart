@@ -5,13 +5,17 @@ import 'package:asteroid_test_app/features/ImageOfTheDay/services/download_image
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../../../theme/theme_constants.dart';
 
 class FullscreenImageWidget extends StatefulWidget {
-  const FullscreenImageWidget(
-      {super.key, required this.imageOfDay, required this.imgBytes});
+  const FullscreenImageWidget({
+    super.key,
+    required this.imageOfDay,
+    required this.imgBytes,
+  });
 
   final ImageOfTheDayModel imageOfDay;
   final Uint8List imgBytes;
@@ -55,9 +59,7 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
               children: [
                 Column(
                   children: [
-                    SizedBox(
-                      height: context.mediaSize.height * .10,
-                    ),
+                    SizedBox(height: context.mediaSize.height * .10),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: IconButton(
@@ -70,47 +72,54 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                 ),
                 Column(
                   children: [
-                    SizedBox(
-                      height: context.mediaSize.height * .10,
-                    ),
+                    SizedBox(height: context.mediaSize.height * .10),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Consumer(
-                        builder: (BuildContext context, WidgetRef ref,
-                            Widget? child) {
-                          return IconButton(
-                            icon: const Icon(Icons.download),
-                            color: Colors.white,
-                            onPressed: () async {
-                              final result = await ref
-                                  .read(downloadImageServiceProvider)
-                                  .saveImageOfTheDay(widget.imgBytes);
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    content: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Icon(
-                                          result
-                                              ? Icons.info_outline
-                                              : Icons.phonelink_erase_rounded,
-                                          color: Colors.white,
+                        builder:
+                            (
+                              BuildContext context,
+                              WidgetRef ref,
+                              Widget? child,
+                            ) {
+                              return IconButton(
+                                icon: const Icon(Icons.download),
+                                color: Colors.white,
+                                onPressed: () async {
+                                  final result = await ref
+                                      .read(downloadImageServiceProvider)
+                                      .saveImageOfTheDay(widget.imgBytes);
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).primaryColor,
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Icon(
+                                              result
+                                                  ? Icons.info_outline
+                                                  : Icons
+                                                        .phonelink_erase_rounded,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              result
+                                                  ? 'Saved image successfully'
+                                                  : 'Error saving image',
+                                            ),
+                                          ],
                                         ),
-                                        Text(result
-                                            ? 'Saved image successfully'
-                                            : 'Error saving image'),
-                                      ],
-                                    ),
-                                  ),
-                                );
+                                      ),
+                                    );
+                                },
+                              );
                             },
-                          );
-                        },
                       ),
                     ),
                   ],
@@ -130,20 +139,24 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.all(p8),
-                        child: IconButton(
-                            onPressed: _toggleExpand,
-                            icon: Icon(
-                              _isExpanded
-                                  ? Icons.arrow_downward
-                                  : Icons.arrow_upward,
-                              color: Colors.white70,
-                            ))),
+                      padding: const EdgeInsets.all(p8),
+                      child: IconButton(
+                        onPressed: _toggleExpand,
+                        icon: Icon(
+                          _isExpanded
+                              ? Icons.arrow_downward
+                              : Icons.arrow_upward,
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ),
                     hGap10,
                     Text(
                       widget.imageOfDay.title,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white70),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white70,
+                      ),
                     ),
                   ],
                 ),
@@ -165,13 +178,15 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                                 if (_isExpanded)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: p8),
-                                    child: Text(
-                                      widget.imageOfDay.explanation,
-                                      style: const TextStyle(
-                                          color: Colors.white70),
+                                      vertical: p8,
                                     ),
-                                  )
+                                    child: HtmlWidget(
+                                      widget.imageOfDay.explanation,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                  ),
                               ],
                             ),
                           ),
@@ -179,7 +194,7 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
@@ -188,3 +203,11 @@ class _FullscreenImageState extends State<FullscreenImageWidget> {
     );
   }
 }
+
+/*
+* Text(
+                                      widget.imageOfDay.explanation,
+                                      style: const TextStyle(
+                                          color: Colors.white70),
+                                    ),
+* */
