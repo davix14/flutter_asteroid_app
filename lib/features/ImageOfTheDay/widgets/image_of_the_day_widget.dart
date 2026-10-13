@@ -30,48 +30,74 @@ class ImageOfTheDayWidget extends ConsumerWidget {
           fit: BoxFit.cover,
         );
 
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Stack(
-            children: [
-              image2,
-              // Top Title
-              Positioned(
-                top: 8,
-                left: 8,
-                right: 8,
-                child: Text(
-                  imageOfDay.title,
-                  style: const TextStyle(color: Colors.white, fontSize: tx19),
-                ),
-              ),
-              // Fullscreen button
-              Positioned(
-                bottom: 4,
-                left: 4,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.fullscreen_outlined,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Navigator.push(
-                    context,
-                    makeSlideTransitionPageRoute(
-                      child: FullscreenImageWidget(
-                        title: imageOfDay.title,
-                        explanation: imageOfDay.explanation,
-                        imgBytes: imgBytes,
-                      ),
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    "Image of the Day",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
+              ],
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Stack(
+                children: [
+                  image2,
+                  // Top Title
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    right: 8,
+                    child: Text(
+                      imageOfDay.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: tx19,
+                      ),
+                    ),
+                  ),
+                  // Fullscreen button
+                  Positioned(
+                    bottom: 4,
+                    left: 4,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.fullscreen_outlined,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => Navigator.push(
+                        context,
+                        makeSlideTransitionPageRoute(
+                          child: FullscreenImageWidget(
+                            title: imageOfDay.title,
+                            explanation: imageOfDay.explanation,
+                            imgBytes: imgBytes,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
       error: (error, stackTrace) {
-        return ImageOfTheDayError(error, stackTrace, () => ref.refresh(latestImageOfTheDayFutureProvider));
+        return ImageOfTheDayError(
+          error,
+          stackTrace,
+          () => ref.refresh(latestImageOfTheDayFutureProvider),
+        );
       },
       loading: () => SizedBox(
         height: context.mediaSize.height * .3,
