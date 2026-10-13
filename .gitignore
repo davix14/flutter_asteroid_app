@@ -55,3 +55,5 @@ app.*.map.json
 
 # Private environment files
 .env
+# Widget Preview related
+.widget_preview/
