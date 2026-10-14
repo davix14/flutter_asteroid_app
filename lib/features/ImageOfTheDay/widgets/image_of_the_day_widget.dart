@@ -1,9 +1,9 @@
-import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/fullscreen_image_widget.dart';
 import 'package:asteroid_test_app/features/ImageOfTheDay/widgets/image_of_the_day_error.dart';
+import 'package:asteroid_test_app/routing/routes.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
-import 'package:asteroid_test_app/util/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../theme/animations/loading_shimmer.dart';
 import '../../../theme/theme_constants.dart';
@@ -39,10 +39,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     "Image of the Day",
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -74,15 +71,13 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                         Icons.fullscreen_outlined,
                         color: Colors.white,
                       ),
-                      onPressed: () => Navigator.push(
-                        context,
-                        makeSlideTransitionPageRoute(
-                          child: FullscreenImageWidget(
-                            title: imageOfDay.title,
-                            explanation: imageOfDay.explanation,
-                            imgBytes: imgBytes,
-                          ),
-                        ),
+                      onPressed: () => context.pushNamed(
+                        AppRoutes.fullscreenImageOfTheDay.name,
+                        extra: {
+                          "title": imageOfDay.title,
+                          "explanation": imageOfDay.explanation,
+                          "imgBytes": imgBytes,
+                        },
                       ),
                     ),
                   ),

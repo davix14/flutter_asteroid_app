@@ -1,7 +1,7 @@
+import 'package:asteroid_test_app/routing/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../single_asteroid_screen.dart';
-import '../../../util/transitions.dart';
 import '../models/nea_model.dart';
 
 class NeoListSliverGroup extends StatelessWidget {
@@ -38,14 +38,7 @@ class _NeoSliverList extends StatelessWidget {
           child: Card(
             child: InkWell(
               onTap: () =>
-                  Navigator.push(
-                    context,
-                    makeSlideTransitionPageRoute(
-                      child: SingleAsteroidScreen(
-                        data,
-                      ),
-                    ),
-                  ),
+                  context.pushNamed(AppRoutes.singleAsteroid.name, extra: data),
               borderRadius: const BorderRadius.all(
                   Radius.circular(12)),
               child: Padding(

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
- PageRouteBuilder makeSlideTransitionPageRoute({
+CustomTransitionPage makeSlideTransitionPage({
+  required LocalKey key,
   required Widget child,
-  transitionDuration = const Duration(milliseconds: 500),
+  Duration duration = const Duration(milliseconds: 500),
 }) {
-  return PageRouteBuilder(
-    transitionDuration: const Duration(milliseconds: 500),
-    pageBuilder: (context, animation,
-        secondaryAnimation) =>
-    child,
+  return CustomTransitionPage(
+    key: key,
+    child: child,
+    transitionDuration: duration,
     transitionsBuilder: (_, a1, a2, child) =>
         SlideTransition(
           position: a1.drive(_offsetTween),
           child: child,
-        )
-    ,
+        ),
   );
 }
 

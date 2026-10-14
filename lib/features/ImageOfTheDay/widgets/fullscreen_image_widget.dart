@@ -4,6 +4,7 @@ import 'package:asteroid_test_app/features/ImageOfTheDay/services/download_image
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:photo_view/photo_view.dart';
 
 import 'fullscreen_iotd/explanation_widget.dart';
@@ -44,7 +45,7 @@ class FullscreenImageWidget extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.keyboard_double_arrow_left),
                     color: Colors.white,
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => context.pop(),
                   ),
                 ),
               ),

@@ -3,7 +3,7 @@ import 'package:asteroid_test_app/theme/theme_constants.dart';
 import 'package:flutter/material.dart';
 // TODO: Add library for saving strings to central locations instead of hard-coded
 class SingleAsteroidScreen extends StatelessWidget {
-  const SingleAsteroidScreen(this._asteroidIn, {super.key});
+  const SingleAsteroidScreen(this._asteroidIn, {super.key, String? asteroidIn});
 
   final SingleAsteroid _asteroidIn;
 

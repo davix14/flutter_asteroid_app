@@ -1,10 +1,13 @@
 
 enum AppRoutes{
-  singleAsteroid('asteroid/:id'),
-  home('/');
+  home('/', 'home'),
+  singleAsteroid('/asteroid-detail', 'singleAsteroid'),
+  fullscreenImageOfTheDay('/fullscreenImageOfTheDay', 'fullscreenImageOfTheDay');
 
   const AppRoutes(
       this.path,
+      this.name
   );
   final String path;
+  final String name;
 }
