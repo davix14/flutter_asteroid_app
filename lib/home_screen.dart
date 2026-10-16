@@ -14,32 +14,23 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text(
-          style: TextStyle(color: Colors.white),
-          'OpenAsteroids',
-        ),
+    return const Padding(
+      padding: EdgeInsets.only(
+        left: 12,
+        right: 12,
+        top: 8,
+        bottom: 0,
       ),
-      body: const Padding(
-        padding: EdgeInsets.only(
-          left: 12,
-          right: 12,
-          top: 8,
-          bottom: 0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ImageOfTheDayWidget(),
-            vGap8,
-            Expanded(
-              child: NEOSearchWidget(),
-            )
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ImageOfTheDayWidget(),
+          vGap8,
+          Expanded(
+            child: NEOSearchWidget(),
+          )
+        ],
       ),
     );
   }

@@ -1,8 +1,9 @@
 
 enum AppRoutes{
   home('/', 'home'),
-  singleAsteroid('/asteroid-detail', 'singleAsteroid'),
-  fullscreenImageOfTheDay('/fullscreenImageOfTheDay', 'fullscreenImageOfTheDay');
+  neoSearch('/neo-search', 'neoSearch'),
+  singleAsteroid('asteroid-detail', 'singleAsteroid'),
+  fullscreenImageOfTheDay('fullscreenImageOfTheDay', 'fullscreenImageOfTheDay');
 
   const AppRoutes(
       this.path,

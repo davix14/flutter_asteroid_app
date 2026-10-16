@@ -39,7 +39,7 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     "Image of the Day",
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
