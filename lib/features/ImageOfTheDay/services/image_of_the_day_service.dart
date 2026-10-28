@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 
 class ImageOfTheDayService {
   late ImageOfTheDayModel latestIMOTD;
-  late Uint8List imageBytes;
   late List<ImageOfTheDayModel> imotdSearchResults;
 
   Future<ImageOfTheDayModel> getImageOfTheDay() async {
@@ -22,7 +21,6 @@ class ImageOfTheDayService {
     final response = await http.get(url);
     final processedRes = ImageResponse.fromJson(jsonDecode(response.body));
     latestIMOTD = processedRes.imotdList.first;
-    imageBytes = await getImageBytes(latestIMOTD.hdurl);
     return latestIMOTD;
   }
 
