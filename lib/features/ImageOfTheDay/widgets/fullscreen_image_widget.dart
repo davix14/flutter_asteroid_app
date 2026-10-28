@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:asteroid_test_app/features/ImageOfTheDay/services/download_image_service.dart';
 import 'package:asteroid_test_app/util/asteroid_context_ext.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:photo_view/photo_view.dart';
 
+import '../../../theme/animations/loading_shimmer.dart';
+import '../services/image_of_the_day_service.dart';
 import 'fullscreen_iotd/explanation_widget.dart';
 
 class FullscreenImageWidget extends StatelessWidget {
@@ -14,12 +14,12 @@ class FullscreenImageWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.explanation,
-    required this.imgBytes,
+    required this.imageUrl,
   });
 
   final String title;
   final String explanation;
-  final Uint8List imgBytes;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,30 @@ class FullscreenImageWidget extends StatelessWidget {
           alignment: Alignment.topLeft,
           children: [
             PhotoView(
-              imageProvider: Image.memory(
-                imgBytes,
+              imageProvider: Image.network(
+                imageUrl,
                 height: context.mediaSize.height * .8,
                 width: context.mediaSize.width,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    loadingProgress == null
+                    ? child
+                    : SizedBox(
+                        height: context.mediaSize.height * .3,
+                        width: context.mediaSize.width,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: const LoadingShimmer(
+                            cycle: Duration(seconds: 1),
+                            colors: <Color>[
+                              Colors.white,
+                              Colors.grey,
+                              Colors.white,
+                              Colors.grey,
+                              Colors.white,
+                            ],
+                          ),
+                        ),
+                      ),
               ).image,
             ),
             // back button
@@ -60,13 +80,16 @@ class FullscreenImageWidget extends StatelessWidget {
                   child: Consumer(
                     builder:
                         (BuildContext context, WidgetRef ref, Widget? child) {
+                          final imgBytes = ref
+                              .read(imageOfTheDayServiceProvider)
+                              .getImageBytes(imageUrl);
                           return IconButton(
                             icon: const Icon(Icons.download),
                             color: Colors.white,
                             onPressed: () async {
                               final result = await ref
                                   .read(downloadImageServiceProvider)
-                                  .saveImageOfTheDay(imgBytes);
+                                  .saveImageOfTheDay(await imgBytes);
                               if (!context.mounted) return;
                               ScaffoldMessenger.of(context)
                                 ..hideCurrentSnackBar()

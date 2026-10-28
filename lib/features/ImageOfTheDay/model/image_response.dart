@@ -3,9 +3,9 @@
 import 'package:asteroid_test_app/features/ImageOfTheDay/model/image_of_the_day.dart';
 
 class ImageResponse {
-  ImageResponse(this.imotdRes);
+  ImageResponse(this.imotdList);
 
-  final List<ImageOfTheDayModel> imotdRes;
+  final List<ImageOfTheDayModel> imotdList;
 
   factory ImageResponse.fromJson(List<dynamic> json) {
     var imotdRes = <ImageOfTheDayModel>[];
@@ -18,6 +18,6 @@ class ImageResponse {
 
   @override
   String toString() {
-    return 'Image Response: $imotdRes';
+    return 'Image Response: $imotdList';
   }
 }

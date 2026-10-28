@@ -19,36 +19,54 @@ class ImageOfTheDayWidget extends ConsumerWidget {
       latestImageOfTheDayFutureProvider,
     );
 
-    return latestImageFuture.when(
-      skipLoadingOnReload: false,
-      data: (imageOfDay) {
-        final imgBytes = ref.read(imageOfTheDayServiceProvider).imageBytes;
-        final image2 = Image.memory(
-          imgBytes,
-          height: context.mediaSize.height * .3,
-          width: context.mediaSize.width,
-          fit: BoxFit.cover,
-        );
-
-        return Column(
+    return Column(
+      children: [
+        // Title
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    "Image of the Day",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                "Image of the Day",
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
             ),
-            ClipRRect(
+          ],
+        ),
+        latestImageFuture.when(
+          skipLoadingOnReload: false,
+          data: (imageOfDay) {
+            return ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Stack(
                 children: [
-                  image2,
+                  Image.network(
+                    imageOfDay.hdurl,
+                    height: context.mediaSize.height * .3,
+                    width: context.mediaSize.width,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) =>
+                        loadingProgress == null
+                        ? child
+                        : SizedBox(
+                            height: context.mediaSize.height * .3,
+                            width: context.mediaSize.width,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: const LoadingShimmer(
+                                cycle: Duration(seconds: 1),
+                                colors: <Color>[
+                                  Colors.white,
+                                  Colors.grey,
+                                  Colors.white,
+                                  Colors.grey,
+                                  Colors.white,
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
                   // Top Title
                   Positioned(
                     top: 8,
@@ -76,41 +94,41 @@ class ImageOfTheDayWidget extends ConsumerWidget {
                         extra: {
                           "title": imageOfDay.title,
                           "explanation": imageOfDay.explanation,
-                          "imgBytes": imgBytes,
+                          "imageUrl": imageOfDay.hdurl,
                         },
                       ),
                     ),
                   ),
                 ],
               ),
+            );
+          },
+          error: (error, stackTrace) {
+            return ImageOfTheDayError(
+              error,
+              stackTrace,
+              () => ref.refresh(latestImageOfTheDayFutureProvider),
+            );
+          },
+          loading: () => SizedBox(
+            height: context.mediaSize.height * .3,
+            width: context.mediaSize.width,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: const LoadingShimmer(
+                cycle: Duration(seconds: 1),
+                colors: <Color>[
+                  Colors.white,
+                  Colors.grey,
+                  Colors.white,
+                  Colors.grey,
+                  Colors.white,
+                ],
+              ),
             ),
-          ],
-        );
-      },
-      error: (error, stackTrace) {
-        return ImageOfTheDayError(
-          error,
-          stackTrace,
-          () => ref.refresh(latestImageOfTheDayFutureProvider),
-        );
-      },
-      loading: () => SizedBox(
-        height: context.mediaSize.height * .3,
-        width: context.mediaSize.width,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: const LoadingShimmer(
-            cycle: Duration(seconds: 1),
-            colors: <Color>[
-              Colors.white,
-              Colors.grey,
-              Colors.white,
-              Colors.grey,
-              Colors.white,
-            ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

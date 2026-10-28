@@ -1,5 +1,5 @@
 // TODO: create unit tests for these helpers
-extension AsteroidDates on DateTime{
+extension AsteroidDates on DateTime {
   String getFormattedDate() {
     final split = toString().split(' ');
     return split.first;
@@ -13,8 +13,10 @@ extension AsteroidDates on DateTime{
       int.parse(splits[2]),
     );
   }
-}
 
+  String toPathParamDate() =>
+      '${year.toString().substring(2)}+${month.toString()}+${day.toString()}';
+}
 
 String getFormattedDate(DateTime dateTime) {
   final split = dateTime.toString().split(' ');
