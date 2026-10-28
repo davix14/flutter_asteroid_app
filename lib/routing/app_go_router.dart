@@ -53,7 +53,7 @@ final router = GoRouter(
                       child: FullscreenImageWidget(
                         title: data['title'],
                         explanation: data['explanation'],
-                        imgBytes: data['imgBytes'],
+                        imageUrl: data['imageUrl'],
                       ),
                     );
                   },
